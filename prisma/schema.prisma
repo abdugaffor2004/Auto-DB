@@ -1,0 +1,83 @@
+// schema.prisma
+
+datasource db {
+  provider = "postgresql" // или "mysql", в зависимости от вашей БД
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator seed {
+  provider = "ts-node"
+  output = "./prisma/seed.ts"
+}
+
+model Vehicle {
+  id                String       @id @default(cuid())
+  brand             String       @db.VarChar(30)
+  modelName         String       @db.VarChar(30)
+  year              Int
+  bodyType          String       @db.VarChar(20)
+  price             Decimal      @default(0) @db.Decimal(10, 2)
+  manufacturer      Manufacturer @relation(fields: [manufacturerId], references: [id])
+  manufacturerId    String
+  specification     Specification @relation(fields: [specificationId], references: [id])
+  specificationId   String
+  history           History       @relation(fields: [historyId], references: [id])
+  historyId         String
+  safety            Safety        @relation(fields: [safetyId], references: [id])
+  safetyId          String
+  configuration     Configuration @relation(fields: [configurationId], references: [id])
+  configurationId   String
+}
+
+model Manufacturer {
+  id               String       @id @default(cuid())
+  name             String       @db.VarChar(100)
+  assembleCountries Json
+  headquarters     String       @db.VarChar(150)
+  website          String       @db.VarChar(100)
+  vehicles         Vehicle[]
+}
+
+model Specification {
+  id             String       @id @default(cuid())
+  engineVolume   Float
+  horsepower     Int
+  fuelType       String       @db.VarChar(20)
+  engineType     String       @db.VarChar(20)
+  driveType      String       @db.VarChar(20)
+  weight         Int
+  vehicles       Vehicle[]
+}
+
+model History {
+  id            String       @id @default(cuid())
+  generation    Int
+  startYear     Int
+  endYear       Int?
+  changes       String       @db.Text
+  vehicles      Vehicle[]
+}
+
+model Safety {
+  id                     String       @id @default(cuid())
+  crashTestingRating     Int
+  airbagsCount           Int
+  abs                    Boolean
+  esp                    Boolean
+  emergencyBreaking      Boolean
+  adaptiveCruiseControl  Boolean
+  vehicles               Vehicle[]
+}
+
+model Configuration {
+  id               String       @id @default(cuid())
+  transmission     String       @db.VarChar(20)
+  driveType        String       @db.VarChar(20)
+  seatingCapacity  Int
+  interiorMaterial String       @db.VarChar(50)
+  vehicles         Vehicle[]
+}
