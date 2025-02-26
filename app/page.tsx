@@ -11,5 +11,5 @@ export default async function Home() {
   });
   console.log(vehicles);
 
-  return <div></div>;
+  return <div>home</div>;
 }
