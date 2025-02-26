@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={`${interSans.variable} antialiased`}>
         <MantineProvider>
           <Header />
-          <main>{children}</main>
+          <main className='mt-5'>{children}</main>
         </MantineProvider>
       </body>
     </html>
