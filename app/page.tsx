@@ -2,7 +2,7 @@ import { ActionIcon, Center, Group, Stack, Text } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import Link from 'next/link';
 
-export default function Home() {
+export default async function Home() {
   return (
     <Center h="60vh">
       <Stack>
