@@ -10,7 +10,7 @@ interface VehicleCardProps {
 
 export const VehicleCard: FC<VehicleCardProps> = ({ vehicle }) => {
   return (
-    <div className="bg-white rounded-lg max-w-[320px] p-5">
+    <div className="bg-white rounded-lg p-5">
       <Group justify="space-between" align="start" mb="16px">
         <Stack gap={0}>
           <Text fz="18px" fw="bolder">
@@ -25,7 +25,7 @@ export const VehicleCard: FC<VehicleCardProps> = ({ vehicle }) => {
           component="a"
           href={vehicle.manufacturer.website}
           target="_blank"
-          variant="transparent"
+          variant="subtle"
         >
           <IconLink size={20} />
         </ActionIcon>
