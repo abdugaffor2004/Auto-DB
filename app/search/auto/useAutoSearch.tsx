@@ -1,7 +1,7 @@
 import { AutoFilterOptions, FetchFilterOptionsParams } from '@/common-types/AutoFilterOptions';
 import { AutoSearchParams } from '@/common-types/AutoSearchParams';
+import { Vehicle } from '@/common-types/Vehicle';
 import { removeMarkFromPrice } from '@/utils/formatters';
-import { Vehicle } from '@prisma/client';
 import axios, { AxiosResponse } from 'axios';
 import { useState } from 'react';
 

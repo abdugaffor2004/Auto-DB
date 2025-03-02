@@ -1,10 +1,11 @@
 'use client';
-import { Button, Group, Input, Select } from '@mantine/core';
+import { Button, Group, Input, Select, SimpleGrid } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { FC, useState } from 'react';
 import { useAutoSearch } from './useAutoSearch';
-import { Vehicle } from '@prisma/client';
 import { addMarkToPrice } from '@/utils/formatters';
+import { VehicleCard } from '@/app/components/VehicleCard/VehicleCard';
+import { Vehicle } from '@/common-types/Vehicle';
 
 const AutoSearchPage: FC = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -12,7 +13,7 @@ const AutoSearchPage: FC = () => {
   const [selectedModelName, setSelectedModelName] = useState<string | null>('');
   const [selectedYear, setSelectedYear] = useState<string | null>('');
   const [selectedPrice, setSelectedPrice] = useState<string | null>('');
-  const [, setVehicles] = useState<Vehicle[]>([]);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const { searchVehicles, fetchOptions, options } = useAutoSearch();
 
   const handleSearch = async () => {
@@ -23,12 +24,12 @@ const AutoSearchPage: FC = () => {
       price: selectedPrice,
       year: selectedYear,
     });
-    setVehicles(prev => [...prev, ...response]);
+    setVehicles([...response]);
   };
 
   return (
     <div>
-      <Group justify="space-between" className="bg-white mt-10 py-10 pl-16 pr-8">
+      <Group justify="space-between" className="bg-white mt-10 py-10 pl-8 pr-8">
         <div className="flex gap-5">
           <Input
             className="w-[300px]"
@@ -101,6 +102,12 @@ const AutoSearchPage: FC = () => {
           />
         </div>
       </Group>
+
+      <SimpleGrid cols={4} className="px-8 pt-10">
+        {vehicles.map(vehicle => (
+          <VehicleCard key={vehicle.id} vehicle={vehicle} />
+        ))}
+      </SimpleGrid>
     </div>
   );
 };
