@@ -6,31 +6,34 @@ import { useAutoSearch } from './useAutoSearch';
 import { VehicleCard } from '@/app/components/VehicleCard/VehicleCard';
 import { SelectAsync } from '@/app/components/SelectAsync';
 import { addMarkToPrice } from '@/utils/formatters';
+import { VehicleSelectedFilters } from '@/common-types/VehicleSelectedFilters';
 
 const AutoSearchPage: FC = () => {
   const [searchValue, setSearchValue] = useState('');
-  const [selectedBrandName, setSelectedBrandName] = useState<string | null>('');
-  const [selectedModelName, setSelectedModelName] = useState<string | null>('');
-  const [selectedYear, setSelectedYear] = useState<string | null>('');
-  const [selectedPrice, setSelectedPrice] = useState<string | null>('');
+  const [vehicleSelectedFilters, setVehicleSelectedFilters] = useState<VehicleSelectedFilters>({
+    selectedBrandName: '',
+    selectedModelName: '',
+    selectedYear: '',
+    selectedPrice: '',
+  });
   const { searchVehicles, getVehicleFilterOptions, options, searchResults, isSearching } =
     useAutoSearch();
 
   const handleSearch = async () => {
     searchVehicles({
       search: searchValue,
-      brand: selectedBrandName,
-      model: selectedModelName,
-      price: selectedPrice,
-      year: selectedYear,
+      brand: vehicleSelectedFilters.selectedBrandName,
+      model: vehicleSelectedFilters.selectedModelName,
+      price: vehicleSelectedFilters.selectedPrice,
+      year: vehicleSelectedFilters.selectedYear,
     });
   };
 
   const vehicleFilterOptionsParams = {
-    brand: selectedBrandName || '',
-    year: selectedYear || '',
-    model: selectedModelName || '',
-    price: selectedPrice || '',
+    brand: vehicleSelectedFilters.selectedBrandName || '',
+    year: vehicleSelectedFilters.selectedYear || '',
+    model: vehicleSelectedFilters.selectedModelName || '',
+    price: vehicleSelectedFilters.selectedPrice || '',
   };
 
   return (
@@ -58,8 +61,10 @@ const AutoSearchPage: FC = () => {
                 brand: '',
               })
             }
-            value={selectedBrandName}
-            onChange={value => setSelectedBrandName(value)}
+            value={vehicleSelectedFilters.selectedBrandName}
+            onChange={value =>
+              setVehicleSelectedFilters(prev => ({ ...prev, selectedBrandName: value }))
+            }
           />
 
           <SelectAsync
@@ -72,8 +77,10 @@ const AutoSearchPage: FC = () => {
                 model: '',
               })
             }
-            value={selectedModelName}
-            onChange={value => setSelectedModelName(value)}
+            value={vehicleSelectedFilters.selectedModelName}
+            onChange={value =>
+              setVehicleSelectedFilters(prev => ({ ...prev, selectedModelName: value }))
+            }
           />
 
           <SelectAsync
@@ -86,8 +93,10 @@ const AutoSearchPage: FC = () => {
                 year: '',
               })
             }
-            value={selectedYear}
-            onChange={value => setSelectedYear(value)}
+            value={vehicleSelectedFilters.selectedYear}
+            onChange={value =>
+              setVehicleSelectedFilters(prev => ({ ...prev, selectedYear: value }))
+            }
           />
 
           <SelectAsync
@@ -100,8 +109,10 @@ const AutoSearchPage: FC = () => {
                 price: '',
               })
             }
-            value={selectedPrice}
-            onChange={value => setSelectedPrice(value)}
+            value={vehicleSelectedFilters.selectedPrice}
+            onChange={value =>
+              setVehicleSelectedFilters(prev => ({ ...prev, selectedPrice: value }))
+            }
           />
         </div>
       </Group>
