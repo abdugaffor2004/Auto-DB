@@ -1,11 +1,11 @@
 'use client';
-import { Button, Group, Input, Select, SimpleGrid } from '@mantine/core';
+import { Button, Group, Input, Loader, SimpleGrid } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { FC, useState } from 'react';
 import { useAutoSearch } from './useAutoSearch';
-import { addMarkToPrice } from '@/utils/formatters';
 import { VehicleCard } from '@/app/components/VehicleCard/VehicleCard';
-import { Vehicle } from '@/common-types/Vehicle';
+import { SelectAsync } from '@/app/components/SelectAsync';
+import { addMarkToPrice } from '@/utils/formatters';
 
 const AutoSearchPage: FC = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -13,18 +13,24 @@ const AutoSearchPage: FC = () => {
   const [selectedModelName, setSelectedModelName] = useState<string | null>('');
   const [selectedYear, setSelectedYear] = useState<string | null>('');
   const [selectedPrice, setSelectedPrice] = useState<string | null>('');
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const { searchVehicles, fetchOptions, options } = useAutoSearch();
+  const { searchVehicles, getVehicleFilterOptions, options, searchResults, isSearching } =
+    useAutoSearch();
 
   const handleSearch = async () => {
-    const response = await searchVehicles({
+    searchVehicles({
       search: searchValue,
       brand: selectedBrandName,
       model: selectedModelName,
       price: selectedPrice,
       year: selectedYear,
     });
-    setVehicles([...response]);
+  };
+
+  const vehicleFilterOptionsParams = {
+    brand: selectedBrandName || '',
+    year: selectedYear || '',
+    model: selectedModelName || '',
+    price: selectedPrice || '',
   };
 
   return (
@@ -42,69 +48,75 @@ const AutoSearchPage: FC = () => {
         </div>
 
         <div className="flex gap-3">
-          <Select
+          <SelectAsync
+            className="min-w-[180px]"
             placeholder="Брэнд"
-            onFocus={async () =>
-              await fetchOptions({
+            options={options?.brands || []}
+            fetchData={() =>
+              getVehicleFilterOptions({
+                ...vehicleFilterOptionsParams,
                 brand: '',
-                year: selectedYear || '',
-                model: selectedModelName || '',
-                price: selectedPrice || '',
               })
             }
+            value={selectedBrandName}
             onChange={value => setSelectedBrandName(value)}
-            data={options.brands}
           />
 
-          <Select
+          <SelectAsync
+            className="min-w-[180px]"
             placeholder="Модель"
-            onFocus={() =>
-              fetchOptions({
+            options={options?.models || []}
+            fetchData={async () =>
+              getVehicleFilterOptions({
+                ...vehicleFilterOptionsParams,
                 model: '',
-                year: selectedYear || '',
-                brand: selectedBrandName || '',
-                price: selectedPrice || '',
               })
             }
+            value={selectedModelName}
             onChange={value => setSelectedModelName(value)}
-            data={options.models}
           />
 
-          <Select
-            className="max-w-[130px]"
+          <SelectAsync
+            className="min-w-[130px]"
             placeholder="Год выпуска"
-            onFocus={() =>
-              fetchOptions({
+            options={options?.years || []}
+            fetchData={async () =>
+              getVehicleFilterOptions({
+                ...vehicleFilterOptionsParams,
                 year: '',
-                price: selectedPrice || '',
-                brand: selectedBrandName || '',
-                model: selectedModelName || '',
               })
             }
             value={selectedYear}
             onChange={value => setSelectedYear(value)}
-            data={options.year}
           />
 
-          <Select
-            className="max-w-[125px]"
+          <SelectAsync
+            className="min-w-[130px]"
             placeholder="Стоимость"
-            onFocus={() =>
-              fetchOptions({
+            options={options?.prices.map(item => addMarkToPrice(item)) || []}
+            fetchData={async () =>
+              getVehicleFilterOptions({
+                ...vehicleFilterOptionsParams,
                 price: '',
-                year: selectedYear || '',
-                brand: selectedBrandName || '',
-                model: selectedModelName || '',
               })
             }
+            value={selectedPrice}
             onChange={value => setSelectedPrice(value)}
-            data={options.price.map(item => addMarkToPrice(item))}
           />
         </div>
       </Group>
 
       <SimpleGrid cols={4} className="px-8 pt-10">
-        {vehicles.map(vehicle => (
+        {searchResults?.length === undefined && !isSearching && (
+          <div className="w-[95vw] flex justify-center items-center">Ничего не найдено</div>
+        )}
+        {isSearching && (
+          <div className="w-[95vw] flex justify-center items-center">
+            <Loader />
+          </div>
+        )}
+
+        {searchResults?.map(vehicle => (
           <VehicleCard key={vehicle.id} vehicle={vehicle} />
         ))}
       </SimpleGrid>

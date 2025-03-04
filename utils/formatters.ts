@@ -3,8 +3,10 @@ export const addMarkToPrice = (price: string) => {
 };
 
 export const removeMarkFromPrice = (price: string) => {
-  return price?.split(' ')[0];
+  const numericValue = price.replace(/[^0-9]/g, '');
+  return numericValue;
 };
+
 
 export const formatEngineVolume = (value: number) => {
   if (value === 0) {

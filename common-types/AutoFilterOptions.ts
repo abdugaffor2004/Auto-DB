@@ -1,8 +1,8 @@
 export interface AutoFilterOptions {
   brands: string[];
   models: string[];
-  price: string[];
-  year: string[];
+  prices: string[];
+  years: string[];
 }
 
 export interface FetchFilterOptionsParams {

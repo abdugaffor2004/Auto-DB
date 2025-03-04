@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { Header } from './components/Header/Header';
+import React from 'react';
+import { RootProvider } from './Provider';
 
 const interSans = Inter({
   variable: '--font-inter-sans',
@@ -23,10 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${interSans.variable} antialiased`}>
-        <MantineProvider>
+        <RootProvider>
           <Header />
-          <main className='mt-5'>{children}</main>
-        </MantineProvider>
+          <main className="mt-5">{children}</main>
+        </RootProvider>
       </body>
     </html>
   );
