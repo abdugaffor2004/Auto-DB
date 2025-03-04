@@ -16,7 +16,7 @@ export const SearchGroup: FC<SearchGoupProps> = ({ value, onChange, onSubmit }) 
         value={value}
         onChange={e => onChange(e.currentTarget.value)}
         leftSection={<IconSearch size="1.2rem" />}
-        placeholder="Поиск"
+        placeholder="Введите поисковой запрос"
       />
       <Button onClick={onSubmit}>Поиск</Button>
     </div>

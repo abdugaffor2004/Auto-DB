@@ -141,10 +141,12 @@ const ManufacturerSearchPage: FC = () => {
       </Group>
 
       {searchedManufacturers?.length === undefined && !isSearching && (
-        <div className="w-[95vw] flex justify-center items-center mt-16">Ничего не найдено</div>
+        <div className="w-[99.2vw] flex justify-center items-center mt-10 text-xl">
+          Ничего не найдено
+        </div>
       )}
       {isSearching && (
-        <div className="w-[95vw] flex justify-center items-center mt-16">
+        <div className="w-[99.2vw] flex justify-center items-center mt-10">
           <Loader />
         </div>
       )}

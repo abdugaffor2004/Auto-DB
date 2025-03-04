@@ -123,7 +123,7 @@ const VehcileSearchPage: FC = () => {
 
       <SimpleGrid cols={4} className="px-8 pt-10">
         {searchResults?.length === undefined && !isSearching && (
-          <div className="w-[95vw] flex justify-center items-center">Ничего не найдено</div>
+          <div className="w-[95vw] flex justify-center items-center text-xl">Ничего не найдено</div>
         )}
         {isSearching && (
           <div className="w-[95vw] flex justify-center items-center">
