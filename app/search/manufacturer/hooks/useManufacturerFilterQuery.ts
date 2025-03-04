@@ -21,7 +21,7 @@ export const useManufacturerFilterQuery = () => {
         {
           params: {
             n: params.name,
-            ac: params.assembleCoutries,
+            ac: params.assembleCountries?.join(',') || '',
             h: params.headquarters,
             md: params.model,
           },

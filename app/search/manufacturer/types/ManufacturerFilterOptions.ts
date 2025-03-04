@@ -7,7 +7,7 @@ export interface ManufacturerFilterOptions {
 
 export interface ManufacturerFetchFilterOptionsParams {
   name?: string | null;
-  assembleCoutries?: string[] | [];
+  assembleCountries?: string[] | [];
   headquarters?: string | null;
   model?: string | null;
 }

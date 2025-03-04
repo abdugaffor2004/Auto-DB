@@ -10,10 +10,10 @@ export const useManufacturerSearch = () => {
       const searchParams = new URLSearchParams();
 
       if (params.search) searchParams.append('s', params.search);
-      if (params.name) searchParams.append('b', params.name);
+      if (params.name) searchParams.append('n', params.name);
       if (params.model) searchParams.append('md', params.model);
-      if (params.assembleCoutries)
-        params.assembleCoutries.map(item => searchParams.append('ac', item));
+      if (params.assembleCountries)
+        params.assembleCountries.map(item => searchParams.append('ac', item));
       if (params.headquarters) searchParams.append('h', params.headquarters);
 
       const response = await axios.get('/api/manufacturer', {

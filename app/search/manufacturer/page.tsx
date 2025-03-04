@@ -8,6 +8,7 @@ import { SelectAsync } from '@/app/components/SelectAsync';
 import { useToggle } from '@mantine/hooks';
 import { useManufacturerSearch } from './hooks/useManufacturerSearch';
 import { SearchGroup } from '@/app/components/SearchGroup/SearchGroup';
+import { CustomTable } from '@/app/components/ManufacturerTable/ManufacturerTable';
 
 const ManufacturerSearchPage: FC = () => {
   const [isMultiSelectLoading, setisMultiSelectLoading] = useState(false);
@@ -22,7 +23,11 @@ const ManufacturerSearchPage: FC = () => {
     });
 
   const { data: options, mutateAsync: getManufacturerFilterOptions } = useManufacturerFilterQuery();
-  const { mutateAsync: searchManufacturer } = useManufacturerSearch();
+  const {
+    data: searchedManufacturers,
+    mutateAsync: searchManufacturer,
+    isPending: isSearching,
+  } = useManufacturerSearch();
 
   const manufacturerFilterOptionsParams = {
     name: manufacturerSelectedFilters.selectedName,
@@ -45,7 +50,7 @@ const ManufacturerSearchPage: FC = () => {
   };
 
   return (
-    <div>
+    <>
       <Group justify="space-between" className="bg-white mt-10 py-10 pl-8 pr-8">
         <SearchGroup value={searchValue} onChange={setSearchValue} onSubmit={handleSearch} />
 
@@ -55,12 +60,12 @@ const ManufacturerSearchPage: FC = () => {
             placeholder="Страна сборки"
             data={options?.assembleCountries || []}
             value={manufacturerSelectedFilters.selectedAssembleCountries}
-            onChange={value =>
+            onChange={value => {
               setManufacturerSelectedFilters(prev => ({
                 ...prev,
                 selectedAssembleCountries: value,
-              }))
-            }
+              }));
+            }}
             onDropdownClose={() => setIsMultiSelectDropdownOpened(false)}
             onDropdownOpen={async () => {
               setIsMultiSelectDropdownOpened(true);
@@ -68,7 +73,7 @@ const ManufacturerSearchPage: FC = () => {
                 setisMultiSelectLoading(true);
                 await getManufacturerFilterOptions({
                   ...manufacturerFilterOptionsParams,
-                  assembleCoutries: [],
+                  assembleCountries: [],
                 });
               } finally {
                 setisMultiSelectLoading(false);
@@ -134,7 +139,20 @@ const ManufacturerSearchPage: FC = () => {
           />
         </div>
       </Group>
-    </div>
+
+      {searchedManufacturers?.length === undefined && !isSearching && (
+        <div className="w-[95vw] flex justify-center items-center mt-16">Ничего не найдено</div>
+      )}
+      {isSearching && (
+        <div className="w-[95vw] flex justify-center items-center mt-16">
+          <Loader />
+        </div>
+      )}
+
+      {!isSearching && !!searchedManufacturers && (
+        <CustomTable data={searchedManufacturers || []} />
+      )}
+    </>
   );
 };
 

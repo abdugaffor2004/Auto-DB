@@ -3,6 +3,7 @@ export interface Manufacturer {
   name: string;
   assembleCountries: string[];
   headquarters: string;
+  website: string
   vehicles: ReducedVehicle[];
 }
 

@@ -47,7 +47,12 @@ export const GET = async (request: NextRequest) => {
 
   const manufacturer = await prisma.manufacturer.findMany({
     where,
-    include: {
+    select: {
+      id: true,
+      name: true,
+      assembleCountries: true,
+      headquarters: true,
+      website: true,
       vehicles: {
         select: {
           id: true,
