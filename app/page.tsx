@@ -10,7 +10,7 @@ export default async function Home() {
 
         <Group>
           Поэтому жмякай сюда 👉
-          <ActionIcon component={Link} href="/search/auto">
+          <ActionIcon component={Link} href="/search/vehicle">
             <IconSearch size={16} />
           </ActionIcon>
         </Group>

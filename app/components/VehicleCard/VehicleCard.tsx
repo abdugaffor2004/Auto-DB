@@ -1,4 +1,5 @@
-import { Vehicle } from '@/common-types/Vehicle';
+
+import { Vehicle } from '@/app/search/vehicle/types/Vehicle';
 import { addMarkToPrice, formatEngineVolume } from '@/utils/formatters';
 import { ActionIcon, Button, Group, Stack, Text } from '@mantine/core';
 import { IconBrandSpeedtest, IconCurrencyRubel, IconEngine, IconLink } from '@tabler/icons-react';

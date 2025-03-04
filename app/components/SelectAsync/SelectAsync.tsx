@@ -1,5 +1,5 @@
 import { CheckIcon, Combobox, Loader, ScrollArea, TextInput, useCombobox } from '@mantine/core';
-import { IconChevronDown } from '@tabler/icons-react';
+import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { FC, useState } from 'react';
 
 interface SelectAsyncProps {
@@ -51,9 +51,9 @@ export const SelectAsync: FC<SelectAsyncProps> = ({
             loading ? (
               <Loader size={18} />
             ) : combobox.dropdownOpened ? (
-              <IconChevronDown size={18} />
+              <IconChevronUp size={'18px'} />
             ) : (
-              <Combobox.Chevron size={'18px'} />
+              <IconChevronDown size={18} />
             )
           }
         >

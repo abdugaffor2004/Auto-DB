@@ -2,13 +2,14 @@
 import { Button, Group, Input, Loader, SimpleGrid } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { FC, useState } from 'react';
-import { useAutoSearch } from './useAutoSearch';
 import { VehicleCard } from '@/app/components/VehicleCard/VehicleCard';
 import { SelectAsync } from '@/app/components/SelectAsync';
 import { addMarkToPrice } from '@/utils/formatters';
-import { VehicleSelectedFilters } from '@/common-types/VehicleSelectedFilters';
+import { useVehicleSearch } from './hooks/useVehicleSearch';
+import { useVehicleFilterQuery } from './hooks/useVehicleFilterQuery';
+import { VehicleSelectedFilters } from './types/VehicleSelectedFilters';
 
-const AutoSearchPage: FC = () => {
+const VehcileSearchPage: FC = () => {
   const [searchValue, setSearchValue] = useState('');
   const [vehicleSelectedFilters, setVehicleSelectedFilters] = useState<VehicleSelectedFilters>({
     selectedBrandName: '',
@@ -16,8 +17,14 @@ const AutoSearchPage: FC = () => {
     selectedYear: '',
     selectedPrice: '',
   });
-  const { searchVehicles, getVehicleFilterOptions, options, searchResults, isSearching } =
-    useAutoSearch();
+
+  const {
+    mutateAsync: searchVehicles,
+    data: searchResults,
+    isPending: isSearching,
+  } = useVehicleSearch();
+
+  const { data: options, mutateAsync: getVehicleFilterOptions } = useVehicleFilterQuery();
 
   const handleSearch = async () => {
     searchVehicles({
@@ -27,13 +34,19 @@ const AutoSearchPage: FC = () => {
       price: vehicleSelectedFilters.selectedPrice,
       year: vehicleSelectedFilters.selectedYear,
     });
+    setVehicleSelectedFilters({
+      selectedBrandName: '',
+      selectedModelName: '',
+      selectedYear: '',
+      selectedPrice: '',
+    });
   };
 
   const vehicleFilterOptionsParams = {
-    brand: vehicleSelectedFilters.selectedBrandName || '',
-    year: vehicleSelectedFilters.selectedYear || '',
-    model: vehicleSelectedFilters.selectedModelName || '',
-    price: vehicleSelectedFilters.selectedPrice || '',
+    brand: vehicleSelectedFilters.selectedBrandName,
+    year: vehicleSelectedFilters.selectedYear,
+    model: vehicleSelectedFilters.selectedModelName,
+    price: vehicleSelectedFilters.selectedPrice,
   };
 
   return (
@@ -135,4 +148,4 @@ const AutoSearchPage: FC = () => {
   );
 };
 
-export default AutoSearchPage;
+export default VehcileSearchPage;

@@ -20,7 +20,7 @@ export const NavButtons: FC = () => {
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item component={Link} href="/search/auto">
+          <Menu.Item component={Link} href="/search/vehicle">
             Автомобиль
           </Menu.Item>
           <Menu.Item component={Link} href="/search/manufacturer">
@@ -39,7 +39,7 @@ export const NavButtons: FC = () => {
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item component={Link} href="/create/auto">
+          <Menu.Item component={Link} href="/create/vehicle">
             Добавить Автомобиль
           </Menu.Item>
           <Menu.Item component={Link} href="/create/manufacturer">
