@@ -1,6 +1,5 @@
 'use client';
-import { Button, Group, Input, Loader, SimpleGrid } from '@mantine/core';
-import { IconSearch } from '@tabler/icons-react';
+import { Group, Loader, SimpleGrid } from '@mantine/core';
 import { FC, useState } from 'react';
 import { VehicleCard } from '@/app/components/VehicleCard/VehicleCard';
 import { SelectAsync } from '@/app/components/SelectAsync';
@@ -8,6 +7,7 @@ import { addMarkToPrice } from '@/utils/formatters';
 import { useVehicleSearch } from './hooks/useVehicleSearch';
 import { useVehicleFilterQuery } from './hooks/useVehicleFilterQuery';
 import { VehicleSelectedFilters } from './types/VehicleSelectedFilters';
+import { SearchGroup } from '@/app/components/SearchGroup/SearchGroup';
 
 const VehcileSearchPage: FC = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -52,16 +52,7 @@ const VehcileSearchPage: FC = () => {
   return (
     <div>
       <Group justify="space-between" className="bg-white mt-10 py-10 pl-8 pr-8">
-        <div className="flex gap-5">
-          <Input
-            className="w-[300px]"
-            value={searchValue}
-            onChange={e => setSearchValue(e.currentTarget.value)}
-            leftSection={<IconSearch size="1.2rem" />}
-            placeholder="Поиск"
-          />
-          <Button onClick={handleSearch}>Поиск</Button>
-        </div>
+        <SearchGroup value={searchValue} onChange={setSearchValue} onSubmit={handleSearch} />
 
         <div className="flex gap-3">
           <SelectAsync

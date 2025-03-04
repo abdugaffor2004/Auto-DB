@@ -1,12 +1,13 @@
 'use client';
-import { Button, Group, Input, Loader, TagsInput } from '@mantine/core';
-import { IconChevronDown, IconChevronUp, IconSearch } from '@tabler/icons-react';
+import { Group, Loader, TagsInput } from '@mantine/core';
+import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import React, { FC, useState } from 'react';
 import { useManufacturerFilterQuery } from './hooks/useManufacturerFilterQuery';
 import { ManufacturerSelectedFilters } from './types/ManufacturerSelectedFilters';
 import { SelectAsync } from '@/app/components/SelectAsync';
 import { useToggle } from '@mantine/hooks';
 import { useManufacturerSearch } from './hooks/useManufacturerSearch';
+import { SearchGroup } from '@/app/components/SearchGroup/SearchGroup';
 
 const ManufacturerSearchPage: FC = () => {
   const [isMultiSelectLoading, setisMultiSelectLoading] = useState(false);
@@ -46,16 +47,7 @@ const ManufacturerSearchPage: FC = () => {
   return (
     <div>
       <Group justify="space-between" className="bg-white mt-10 py-10 pl-8 pr-8">
-        <div className="flex gap-5">
-          <Input
-            className="w-[300px]"
-            value={searchValue}
-            onChange={e => setSearchValue(e.currentTarget.value)}
-            leftSection={<IconSearch size="1.2rem" />}
-            placeholder="Поиск"
-          />
-          <Button onClick={handleSearch}>Поиск</Button>
-        </div>
+        <SearchGroup value={searchValue} onChange={setSearchValue} onSubmit={handleSearch} />
 
         <div className="flex gap-3">
           <TagsInput
