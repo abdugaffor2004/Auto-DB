@@ -41,7 +41,7 @@ export const SelectAsync: FC<SelectAsyncProps> = ({
     >
       <Combobox.Target>
         <TextInput
-          className={`min-w-[200px] ${className}`}
+          className={`max-w-[200px] ${className}`}
           component="button"
           type="button"
           pointer

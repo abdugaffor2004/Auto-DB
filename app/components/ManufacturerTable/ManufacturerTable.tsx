@@ -7,7 +7,7 @@ interface CustomTableProps {
   data: Manufacturer[];
 }
 
-export const CustomTable: FC<CustomTableProps> = ({ data }) => {
+export const ManufacturerTable: FC<CustomTableProps> = ({ data }) => {
   const { currentItems, page, total, setPage } = usePagination<Manufacturer>(data!);
   const rows = currentItems?.map(item => {
     return (

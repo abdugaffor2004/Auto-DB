@@ -1,15 +1,10 @@
+import { ReducedVehicle } from '../../vehicle/types/ReducedVehicle';
+
 export interface Manufacturer {
   id: string;
   name: string;
   assembleCountries: string[];
   headquarters: string;
-  website: string
-  vehicles: ReducedVehicle[];
-}
-
-export interface ReducedVehicle {
-  id: string;
   website: string;
-  brand: string;
-  modelName: string;
+  vehicles: ReducedVehicle[];
 }

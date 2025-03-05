@@ -3,11 +3,11 @@ import { Group, Loader, SimpleGrid } from '@mantine/core';
 import { FC, useState } from 'react';
 import { VehicleCard } from '@/app/components/VehicleCard/VehicleCard';
 import { SelectAsync } from '@/app/components/SelectAsync';
-import { addMarkToPrice } from '@/utils/formatters';
 import { useVehicleSearch } from './hooks/useVehicleSearch';
 import { useVehicleFilterQuery } from './hooks/useVehicleFilterQuery';
 import { VehicleSelectedFilters } from './types/VehicleSelectedFilters';
 import { SearchGroup } from '@/app/components/SearchGroup/SearchGroup';
+import { formatPrice } from '@/utils/formatters';
 
 const VehcileSearchPage: FC = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -106,7 +106,7 @@ const VehcileSearchPage: FC = () => {
           <SelectAsync
             className="min-w-[130px]"
             placeholder="Стоимость"
-            options={options?.prices.map(item => addMarkToPrice(item)) || []}
+            options={options?.prices.map(item => formatPrice(item)) || []}
             fetchData={async () =>
               getVehicleFilterOptions({
                 ...vehicleFilterOptionsParams,

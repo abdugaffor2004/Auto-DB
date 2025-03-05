@@ -1,6 +1,5 @@
-
 import { Vehicle } from '@/app/search/vehicle/types/Vehicle';
-import { addMarkToPrice, formatEngineVolume } from '@/utils/formatters';
+import { formatEngineVolume, formatPrice } from '@/utils/formatters';
 import { ActionIcon, Button, Group, Stack, Text } from '@mantine/core';
 import { IconBrandSpeedtest, IconCurrencyRubel, IconEngine, IconLink } from '@tabler/icons-react';
 import React, { FC } from 'react';
@@ -46,7 +45,7 @@ export const VehicleCard: FC<VehicleCardProps> = ({ vehicle }) => {
         </Group>
         <Group gap={10}>
           <IconCurrencyRubel color="#2563EB" />
-          <Text fz={14}>От {addMarkToPrice(vehicle.price)} </Text>
+          <Text fz={14}>От {formatPrice(vehicle.price)} </Text>
         </Group>
       </Stack>
 

@@ -8,7 +8,7 @@ import { SelectAsync } from '@/app/components/SelectAsync';
 import { useToggle } from '@mantine/hooks';
 import { useManufacturerSearch } from './hooks/useManufacturerSearch';
 import { SearchGroup } from '@/app/components/SearchGroup/SearchGroup';
-import { CustomTable } from '@/app/components/ManufacturerTable/ManufacturerTable';
+import { ManufacturerTable } from '@/app/components/ManufacturerTable/ManufacturerTable';
 
 const ManufacturerSearchPage: FC = () => {
   const [isMultiSelectLoading, setisMultiSelectLoading] = useState(false);
@@ -107,7 +107,7 @@ const ManufacturerSearchPage: FC = () => {
           />
 
           <SelectAsync
-            className="min-w-[180px]"
+            className="min-w-[260px]"
             placeholder="Штаб-квартира"
             options={options?.headquarters || []}
             fetchData={async () =>
@@ -152,7 +152,7 @@ const ManufacturerSearchPage: FC = () => {
       )}
 
       {!isSearching && !!searchedManufacturers && (
-        <CustomTable data={searchedManufacturers || []} />
+        <ManufacturerTable data={searchedManufacturers || []} />
       )}
     </>
   );

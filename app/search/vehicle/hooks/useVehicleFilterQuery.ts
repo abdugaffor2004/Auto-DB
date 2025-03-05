@@ -1,4 +1,3 @@
-import { removeMarkFromPrice } from '@/utils/formatters';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
 import {
@@ -6,6 +5,7 @@ import {
   VehiclesFetchFilterOptionsParams,
 } from '../types/VehicleFilterOptions';
 import { Vehicle } from '../types/Vehicle';
+import { unformatNumber } from '@/utils/formatters';
 
 export const useVehicleFilterQuery = () => {
   return useMutation<
@@ -22,7 +22,7 @@ export const useVehicleFilterQuery = () => {
           b: params?.brand,
           md: params?.model,
           y: params?.year,
-          p: params?.price ? removeMarkFromPrice(params.price) : undefined,
+          p: params?.price ? unformatNumber(params.price) : undefined,
         },
       });
 
