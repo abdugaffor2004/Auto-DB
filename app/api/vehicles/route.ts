@@ -93,21 +93,17 @@ export const POST = async (request: NextRequest) => {
     return NextResponse.json({ error: 'Invalid year format' }, { status: 400 });
   }
 
-  try {
-    const newVehicle = await prisma.vehicle.create({
-      data: {
-        brand,
-        modelName,
-        bodyType,
-        year: parseInt(year),
-        price: parseInt(price),
-        seatingCapacity: parseInt(seatingCapacity),
-        manufacturerId: manufacturerId,
-        specificationId: specificationId,
-      },
-    });
-    return NextResponse.json(newVehicle, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error }, { status: 400 });
-  }
+  const newVehicle = await prisma.vehicle.create({
+    data: {
+      brand,
+      modelName,
+      bodyType,
+      year: parseInt(year),
+      price: parseInt(price),
+      seatingCapacity: parseInt(seatingCapacity),
+      manufacturerId: manufacturerId,
+      specificationId: specificationId,
+    },
+  });
+  return NextResponse.json(newVehicle, { status: 201 });
 };

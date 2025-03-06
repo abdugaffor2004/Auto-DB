@@ -65,3 +65,24 @@ export const GET = async (request: NextRequest) => {
 
   return NextResponse.json(manufacturer);
 };
+
+export const POST = async (request: NextRequest) => {
+  const { name, assembleCountries, headquarters, website } = await request.json();
+
+  if (!name) {
+    return NextResponse.json(
+      { error: 'Missing required fields: name, vehicleId' },
+      { status: 400 },
+    );
+  }
+
+  const newManufacturer = await prisma.manufacturer.create({
+    data: {
+      name,
+      assembleCountries,
+      headquarters,
+      website,
+    },
+  });
+  return NextResponse.json(newManufacturer, { status: 201 });
+};

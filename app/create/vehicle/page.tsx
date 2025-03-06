@@ -22,9 +22,7 @@ const createVehicle = async (data: VehicleCreate) => {
       },
     });
     return { status: response.status, data: response.data };
-  } 
-  
-  catch (error: any) {
+  } catch (error: any) {
     if (error.response) {
       return { status: error.response.status, data: error.response.data };
     }
@@ -229,7 +227,7 @@ const CreateVehicle: FC = () => {
           <Button type="reset" variant="light">
             Сброс
           </Button>
-          <Button type="submit">
+          <Button disabled={!form.isValid()} type="submit">
             Добавить <IconPlus size={16} className="ml-3" />
           </Button>
         </Group>

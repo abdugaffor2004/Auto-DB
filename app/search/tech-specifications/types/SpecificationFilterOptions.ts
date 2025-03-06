@@ -1,12 +1,13 @@
-import { NameType } from "../../manufacturer/types/ManufacturerFilterOptions";
+import { NameType } from '../../manufacturer/types/ManufacturerFilterOptions';
 
 export interface SpecificationFilterOptions {
   engineVolumes: string[];
   horsepowers: string[];
   fuelTypes: string[];
   engineTypes: string[];
+  transmissions: string[];
   prices: string[];
-  names: NameType[]
+  names: NameType[];
 }
 
 export interface SpecificationFetchFilterOptionsParams {
@@ -14,5 +15,6 @@ export interface SpecificationFetchFilterOptionsParams {
   horsepower?: string | null;
   fuelType?: string | null;
   engineType?: string | null;
+  transmission?: string | null;
   price?: string | null;
 }

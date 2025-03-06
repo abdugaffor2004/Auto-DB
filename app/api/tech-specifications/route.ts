@@ -11,6 +11,7 @@ export const GET = async (request: NextRequest) => {
   const fuelType = searchParams.get('ft');
   const engineType = searchParams.get('et');
   const price = searchParams.get('p');
+  const transmission = searchParams.get('tr');
 
   const where: Prisma.SpecificationWhereInput = {};
 
@@ -18,6 +19,7 @@ export const GET = async (request: NextRequest) => {
     where.OR = [
       { engineVolume: { equals: parseInt(search) } },
       { horsepower: { equals: parseInt(search) } },
+      { weight: { equals: parseInt(search) } },
     ];
   }
 
@@ -39,6 +41,10 @@ export const GET = async (request: NextRequest) => {
 
   if (engineType) {
     where.engineType = engineType;
+  }
+
+  if (transmission) {
+    where.transmission = transmission;
   }
 
   if (price) {
@@ -64,4 +70,22 @@ export const GET = async (request: NextRequest) => {
   });
 
   return NextResponse.json(manufacturer);
+};
+
+export const POST = async (request: NextRequest) => {
+  const { driveType, engineType, engineVolume, fuelType, horsepower, transmission, weight } =
+    await request.json();
+
+  const newManufacturer = await prisma.specification.create({
+    data: {
+      driveType,
+      engineType,
+      engineVolume,
+      fuelType,
+      horsepower,
+      transmission,
+      weight,
+    },
+  });
+  return NextResponse.json(newManufacturer, { status: 201 });
 };

@@ -87,7 +87,10 @@ const TechSpecifications = () => {
             }
             value={specificationSelectedFilters.selectedEngineVolume}
             onChange={value =>
-              setSpecificationSelectedFilters(prev => ({ ...prev, selectedEngineVolume: value }))
+              setSpecificationSelectedFilters(prev => ({
+                ...prev,
+                selectedEngineVolume: value === 'нет ДВС' ? '0' : value,
+              }))
             }
           />
 

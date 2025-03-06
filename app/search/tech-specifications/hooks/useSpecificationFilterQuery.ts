@@ -5,7 +5,7 @@ import {
   SpecificationFilterOptions,
 } from '../types/SpecificationFilterOptions';
 import { Specification } from '../types/Specification';
-import { unformatFloat, unformatNumber } from '@/utils/formatters';
+import { unformatNumber } from '@/utils/formatters';
 
 export const useSpecificationFilterQuery = () => {
   return useMutation<
@@ -21,10 +21,11 @@ export const useSpecificationFilterQuery = () => {
         '/api/tech-specifications',
         {
           params: {
-            ev: params.engineVolume ? unformatFloat(params.engineVolume) : undefined,
+            ev: params.engineVolume,
             et: params.engineType,
             hp: params.horsepower ? unformatNumber(params.horsepower) : undefined,
             ft: params.fuelType,
+            tr: params.transmission,
             p: params?.price ? unformatNumber(params.price) : undefined,
           },
         },
@@ -48,6 +49,7 @@ export const useSpecificationFilterQuery = () => {
         ),
         fuelTypes: Array.from(new Set(response.data.map(item => item.fuelType))),
         horsepowers: Array.from(new Set(response.data.map(item => item.horsepower.toString()))),
+        transmissions: Array.from(new Set(response.data.map(item => item.transmission))),
         names: names,
       };
     },
