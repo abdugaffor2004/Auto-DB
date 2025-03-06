@@ -1,18 +1,32 @@
 import { usePagination } from '@/app/hooks/usePagination';
 import { Specification } from '@/app/search/tech-specifications/types/Specification';
-import { Pagination, Table } from '@mantine/core';
+import { ActionIcon, Pagination, Table } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react';
 
 import React, { FC } from 'react';
 
 interface SpecificationTable {
   data: Specification[];
+  withDelete?: boolean;
+  deleteRows?: (ids: string) => void;
 }
 
-export const SpecificationTable: FC<SpecificationTable> = ({ data }) => {
+export const SpecificationTable: FC<SpecificationTable> = ({
+  data,
+  withDelete = false,
+  deleteRows,
+}) => {
   const { currentItems, page, total, setPage } = usePagination<Specification>(data!);
   const rows = currentItems?.map(item => {
     return (
       <Table.Tr key={item.id}>
+        {withDelete && (
+          <Table.Td>
+            <ActionIcon onClick={() => deleteRows?.(item.id)}>
+              <IconTrash />
+            </ActionIcon>
+          </Table.Td>
+        )}
         <Table.Td>{`${item.engineVolume} л`}</Table.Td>
         <Table.Td>{`${item.horsepower} л.с`}</Table.Td>
         <Table.Td>{item.fuelType}</Table.Td>
@@ -33,6 +47,7 @@ export const SpecificationTable: FC<SpecificationTable> = ({ data }) => {
       >
         <Table.Thead h="70px">
           <Table.Tr>
+            {withDelete && <Table.Th className="w-[10px]"></Table.Th>}
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Объем ДВС</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Мощность ДВС</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Тип топлива</Table.Th>

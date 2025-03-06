@@ -1,14 +1,15 @@
 import { Vehicle } from '@/app/search/vehicle/types/Vehicle';
 import { formatOptionalValue, formatPrice } from '@/utils/formatters';
-import { ActionIcon, Button, Group, Stack, Text } from '@mantine/core';
-import { IconBrandSpeedtest, IconCurrencyRubel, IconEngine, IconLink } from '@tabler/icons-react';
-import React, { FC } from 'react';
+import { Button, Group, Stack, Text } from '@mantine/core';
+import { IconBrandSpeedtest, IconCurrencyRubel, IconEngine } from '@tabler/icons-react';
+import React, { FC, ReactNode } from 'react';
 
 interface VehicleCardProps {
   vehicle: Vehicle;
+  rightSection: () => ReactNode;
 }
 
-export const VehicleCard: FC<VehicleCardProps> = ({ vehicle }) => {
+export const VehicleCard: FC<VehicleCardProps> = ({ vehicle, rightSection }) => {
   return (
     <div className="bg-white rounded-lg p-5">
       <Group justify="space-between" align="start" mb="16px">
@@ -21,14 +22,9 @@ export const VehicleCard: FC<VehicleCardProps> = ({ vehicle }) => {
           </Text>
         </Stack>
 
-        <ActionIcon
-          component="a"
-          href={vehicle.manufacturer?.website}
-          target="_blank"
-          variant="subtle"
-        >
-          <IconLink size={20} />
-        </ActionIcon>
+        
+
+        {rightSection()}
       </Group>
 
       <Stack gap={8} mb={20}>

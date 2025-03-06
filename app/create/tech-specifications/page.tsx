@@ -39,12 +39,12 @@ const Specification = () => {
       weight: 0,
     },
     validate: {
-      engineType: value => isNotEmpty() && typeof parseInt(value) === 'number',
-      driveType: value => isNotEmpty() && typeof parseInt(value) === 'number',
-      fuelType: value => isNotEmpty() && typeof parseInt(value) === 'number',
+      engineType: isNotEmpty(),
+      driveType: isNotEmpty(),
+      fuelType: isNotEmpty(),
       engineVolume: value => isNotEmpty() && value === 0,
       horsepower: value => isNotEmpty() && value === 0,
-      transmission: value => isNotEmpty() && typeof parseInt(value) === 'number',
+      transmission: isNotEmpty(),
       weight: value => isNotEmpty() && value === 0,
     },
   });

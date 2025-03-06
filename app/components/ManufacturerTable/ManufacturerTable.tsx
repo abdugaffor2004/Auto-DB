@@ -1,17 +1,32 @@
 import { usePagination } from '@/app/hooks/usePagination';
-import { Pagination, Table, UnstyledButton } from '@mantine/core';
+import { ActionIcon, Pagination, Table, UnstyledButton } from '@mantine/core';
 import { Manufacturer } from '@prisma/client';
+import { IconTrash } from '@tabler/icons-react';
 import React, { FC } from 'react';
 
 interface CustomTableProps {
   data: Manufacturer[];
+  withDelete?: boolean;
+  deleteRows?: (ids: string) => void;
 }
 
-export const ManufacturerTable: FC<CustomTableProps> = ({ data }) => {
+export const ManufacturerTable: FC<CustomTableProps> = ({
+  data,
+  deleteRows,
+  withDelete = false,
+}) => {
   const { currentItems, page, total, setPage } = usePagination<Manufacturer>(data!);
+
   const rows = currentItems?.map(item => {
     return (
       <Table.Tr key={item.id}>
+        {withDelete && (
+          <Table.Td>
+            <ActionIcon onClick={() => deleteRows?.(item.id)}>
+              <IconTrash />
+            </ActionIcon>
+          </Table.Td>
+        )}
         <Table.Td>{item.name}</Table.Td>
         <Table.Td>{item.assembleCountries.join(', ')}</Table.Td>
         <Table.Td>{item.headquarters}</Table.Td>
@@ -38,6 +53,7 @@ export const ManufacturerTable: FC<CustomTableProps> = ({ data }) => {
       >
         <Table.Thead h="70px">
           <Table.Tr>
+            {withDelete && <Table.Th className="w-[10px]"></Table.Th>}
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Название компании</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Страна сборки</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Штаб-квартира</Table.Th>

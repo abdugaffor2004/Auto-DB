@@ -3,14 +3,30 @@ import { ActionIcon, Group, Loader, SimpleGrid } from '@mantine/core';
 import { FC, useState } from 'react';
 import { VehicleCard } from '@/app/components/VehicleCard/VehicleCard';
 import { SelectAsync } from '@/app/components/SelectAsync';
-import { useVehicleSearch } from './hooks/useVehicleSearch';
-import { useVehicleFilterQuery } from './hooks/useVehicleFilterQuery';
-import { VehicleSelectedFilters } from './types/VehicleSelectedFilters';
+
 import { SearchGroup } from '@/app/components/SearchGroup/SearchGroup';
 import { formatPrice } from '@/utils/formatters';
-import { IconLink } from '@tabler/icons-react';
+import { useVehicleSearch } from '@/app/search/vehicle/hooks/useVehicleSearch';
+import { VehicleSelectedFilters } from '@/app/search/vehicle/types/VehicleSelectedFilters';
+import { useVehicleFilterQuery } from '@/app/search/vehicle/hooks/useVehicleFilterQuery';
+import { IconTrash } from '@tabler/icons-react';
+import axios from 'axios';
+import { notifications } from '@mantine/notifications';
 
-const VehcileSearchPage: FC = () => {
+const deleteVehicle = async (id: string) => {
+  try {
+    const response = await axios.delete(`/api/vehicles?id=${id}`);
+    return { status: response.status, data: response.data };
+  } catch (error: any) {
+    if (error.response) {
+      return { status: error.response.status, data: error.response.data };
+    }
+
+    return { status: 500, data: { error: 'Не удалось связаться с сервером' } };
+  }
+};
+
+const DeleteVehiclePage: FC = () => {
   const [searchValue, setSearchValue] = useState('');
   const [vehicleSelectedFilters, setVehicleSelectedFilters] = useState<VehicleSelectedFilters>({
     selectedBrandName: '',
@@ -48,6 +64,20 @@ const VehcileSearchPage: FC = () => {
     year: vehicleSelectedFilters.selectedYear,
     model: vehicleSelectedFilters.selectedModelName,
     price: vehicleSelectedFilters.selectedPrice,
+  };
+
+  const handleDelete = async (id: string) => {
+    const { status } = await deleteVehicle(id);
+
+    if (status === 200) {
+      notifications.show({
+        title: 'Успешно',
+        message: 'Удаление прошло успешно',
+        color: 'green',
+      });
+    }
+
+    handleSearch();
   };
 
   return (
@@ -135,13 +165,8 @@ const VehcileSearchPage: FC = () => {
         {searchResults?.map(vehicle => (
           <VehicleCard
             rightSection={() => (
-              <ActionIcon
-                component="a"
-                href={vehicle.manufacturer?.website}
-                target="_blank"
-                variant="subtle"
-              >
-                <IconLink size={20} />
+              <ActionIcon onClick={() => handleDelete(vehicle.id)} variant="subtle">
+                <IconTrash size={20} />
               </ActionIcon>
             )}
             key={vehicle.id}
@@ -153,4 +178,4 @@ const VehcileSearchPage: FC = () => {
   );
 };
 
-export default VehcileSearchPage;
+export default DeleteVehiclePage;

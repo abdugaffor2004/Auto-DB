@@ -13,6 +13,10 @@ export const NavButtons: FC = () => {
         <Link href="/">Главная</Link>
       </Button>
 
+      <Button variant={currentPathname === '/statistics' ? 'light' : 'subtle'}>
+        <Link href="/statistics">Статистика</Link>
+      </Button>
+
       <Menu trigger="click">
         <Menu.Target>
           <Button variant={currentPathname.startsWith('/search') ? 'light' : 'subtle'}>
@@ -47,6 +51,16 @@ export const NavButtons: FC = () => {
           </Menu.Item>
           <Menu.Item component={Link} href="/create/tech-specifications">
             Добавить Технические характеристики
+          </Menu.Item>
+
+          <Menu.Item component={Link} href="/delete/vehicle">
+            Удалить Автомобиль
+          </Menu.Item>
+          <Menu.Item component={Link} href="/delete/manufacturer">
+            Удалить Производителя
+          </Menu.Item>
+          <Menu.Item component={Link} href="/delete/tech-specifications">
+            Удалить Технические характеристики
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>

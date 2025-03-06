@@ -107,3 +107,18 @@ export const POST = async (request: NextRequest) => {
   });
   return NextResponse.json(newVehicle, { status: 201 });
 };
+
+export const DELETE = async (request: NextRequest) => {
+  const searchParams = request.nextUrl.searchParams;
+  const id = searchParams.get('id');
+
+  try {
+    await prisma.vehicle.delete({
+      where: {
+        id: id || '',
+      },
+    });
+    return NextResponse.json({ text: 'Успешно удаленно' });
+  } finally {
+  }
+};
