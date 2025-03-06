@@ -8,7 +8,7 @@ export interface Vehicle {
   bodyType: string;
   seatingCapacity: number;
   price: string;
-  history: History;
-  manufacturer: Manufacturer;
-  specification: Specification;
+  history: History | null;
+  manufacturer: Manufacturer | null;
+  specification: Specification | null;
 }

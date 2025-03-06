@@ -1,17 +1,19 @@
+
+import { NameType } from '@/app/search/manufacturer/types/ManufacturerFilterOptions';
 import { CheckIcon, Combobox, Loader, ScrollArea, TextInput, useCombobox } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { FC, useState } from 'react';
 
-interface SelectAsyncProps {
-  placeholder: string;
+interface SelectAsyncWithIdProps {
+  placeholder?: string;
   fetchData: () => void;
-  options: string[];
-  value: string | null;
+  options: NameType[];
+  value: NameType | null;
   className?: string;
-  onChange: (value: string | null) => void;
+  onChange: (value: NameType | null) => void;
 }
 
-export const SelectAsync: FC<SelectAsyncProps> = ({
+export const SelectAsyncWithId: FC<SelectAsyncWithIdProps> = ({
   className,
   placeholder,
   fetchData,
@@ -35,8 +37,9 @@ export const SelectAsync: FC<SelectAsyncProps> = ({
       store={combobox}
       withinPortal={false}
       onOptionSubmit={val => {
-        const newValue = val === value ? null : val;
-        onChange(newValue);
+        const newValue = val === value?.label ? null : val;
+        const newId = options.filter(item => item.label !== newValue)[0].value;
+        onChange({ value: newId, label: newValue || '' });
         combobox.closeDropdown();
       }}
     >
@@ -59,7 +62,7 @@ export const SelectAsync: FC<SelectAsyncProps> = ({
             )
           }
         >
-          <span style={{ display: value ? 'block' : 'none' }}>{value}</span>
+          <span style={{ display: value ? 'block' : 'none' }}>{value?.label}</span>
           <span style={{ display: value ? 'none' : 'block', color: '#A1ABBB' }}>{placeholder}</span>
         </TextInput>
       </Combobox.Target>
@@ -73,7 +76,7 @@ export const SelectAsync: FC<SelectAsyncProps> = ({
           ) : (
             <ScrollArea.Autosize mah={220}>
               {options.map(option => (
-                <Combobox.Option value={option} key={option}>
+                <Combobox.Option value={option.label} key={option.label}>
                   <div
                     style={{
                       display: 'flex',
@@ -84,8 +87,8 @@ export const SelectAsync: FC<SelectAsyncProps> = ({
                       cursor: 'pointer',
                     }}
                   >
-                    {value === option && <CheckIcon color="#A1ABBB" size={12} />}
-                    {option}
+                    {value?.label === option.label && <CheckIcon color="#A1ABBB" size={12} />}
+                    {option.label}
                   </div>
                 </Combobox.Option>
               ))}

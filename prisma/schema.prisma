@@ -38,7 +38,7 @@ model Manufacturer {
   website           String       @db.VarChar(100)
 
   // Relation
-  vehicles         Vehicle[]     // Множественная связь с Vehicle
+  vehicles         Vehicle[] 
 }
 
 model Specification {
@@ -63,7 +63,6 @@ model History {
   unitsProduced Int?
   keyChanges String[]
 
-  // Relation
   vehicle    Vehicle? @relation(fields: [vehicleId], references: [id])
   vehicleId  String? @unique
 }

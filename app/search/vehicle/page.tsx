@@ -106,7 +106,7 @@ const VehcileSearchPage: FC = () => {
           <SelectAsync
             className="min-w-[130px]"
             placeholder="Стоимость"
-            options={options?.prices.map(item => formatPrice(item)) || []}
+            options={options?.prices?.map(item => formatPrice(item)) || []}
             fetchData={async () =>
               getVehicleFilterOptions({
                 ...vehicleFilterOptionsParams,

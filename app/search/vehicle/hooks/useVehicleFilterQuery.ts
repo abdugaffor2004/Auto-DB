@@ -22,6 +22,7 @@ export const useVehicleFilterQuery = () => {
           b: params?.brand,
           md: params?.model,
           y: params?.year,
+          bt: params.bodyType,
           p: params?.price ? unformatNumber(params.price) : undefined,
         },
       });
@@ -30,6 +31,7 @@ export const useVehicleFilterQuery = () => {
         brands: Array.from(new Set(response.data.map(item => item.brand))),
         models: Array.from(new Set(response.data.map(item => item.modelName))),
         prices: Array.from(new Set(response.data.map(item => item.price.toString()))),
+        bodyTypes: Array.from(new Set(response.data.map(item => item.bodyType))),
         years: Array.from(new Set(response.data.map(item => item.year.toString()))),
       };
     },

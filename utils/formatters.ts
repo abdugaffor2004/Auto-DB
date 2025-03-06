@@ -18,9 +18,9 @@ export const unformatFloat = (value: string): string => {
   return numericValue;
 };
 
-export const formatEngineVolume = (value: number | string) => {
+export const formatEngineVolume = (value: number | string): string => {
   if (value === 0) {
-    return;
+    return '';
   }
 
   if (typeof value === 'string') {
@@ -28,4 +28,21 @@ export const formatEngineVolume = (value: number | string) => {
   }
 
   return `${value.toFixed(1)}л`;
+};
+
+export const formatOptionalValue = (
+  value: string | number | undefined | null,
+  callback?: (value: string | number) => string | number,
+) => {
+  // if (value === null || value === undefined || (typeof value === 'string' && value.trim() === '')) {
+  //   return '---';
+  // }
+
+  // if (typeof value === 'number' && isNaN(value)) {
+  //   return '---';
+  // }
+
+  // return value;
+
+  return !value ? '---' : callback?.(value);
 };

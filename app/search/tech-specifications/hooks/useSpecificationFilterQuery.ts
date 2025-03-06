@@ -30,6 +30,11 @@ export const useSpecificationFilterQuery = () => {
         },
       );
 
+      const names = response.data.map(item => ({
+        value: item.id,
+        label: `${item.engineType} | ${item.fuelType} | ${item.engineVolume} л | ${item.horsepower} л.с. | ${item.driveType} | ${item.transmission}`,
+      }));
+
       return {
         engineVolumes: Array.from(new Set(response.data.map(item => item.engineVolume.toString()))),
         engineTypes: Array.from(new Set(response.data.map(item => item.engineType))),
@@ -43,6 +48,7 @@ export const useSpecificationFilterQuery = () => {
         ),
         fuelTypes: Array.from(new Set(response.data.map(item => item.fuelType))),
         horsepowers: Array.from(new Set(response.data.map(item => item.horsepower.toString()))),
+        names: names,
       };
     },
   });

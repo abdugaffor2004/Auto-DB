@@ -93,7 +93,7 @@ const ManufacturerSearchPage: FC = () => {
           <SelectAsync
             className="min-w-[180px]"
             placeholder="Название компании"
-            options={options?.names || []}
+            options={options?.names.map(item => item.label) || []}
             fetchData={() =>
               getManufacturerFilterOptions({
                 ...manufacturerFilterOptionsParams,

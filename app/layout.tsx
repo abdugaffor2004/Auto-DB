@@ -5,6 +5,7 @@ import '@mantine/core/styles.css';
 import { Header } from './components/Header/Header';
 import React from 'react';
 import { RootProvider } from './Provider';
+import '@mantine/notifications/styles.css';
 
 const interSans = Inter({
   variable: '--font-inter-sans',

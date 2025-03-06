@@ -29,7 +29,9 @@ export const useManufacturerFilterQuery = () => {
       );
 
       return {
-        names: Array.from(new Set(response.data.map(item => item.name))),
+        names: Array.from(
+          new Set(response.data.map(item => ({ value: item.id, label: item.name }))),
+        ),
         assembleCountries: Array.from(
           new Set(response.data.map(item => item.assembleCountries).flat()),
         ),

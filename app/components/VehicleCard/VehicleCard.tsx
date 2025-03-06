@@ -1,5 +1,5 @@
 import { Vehicle } from '@/app/search/vehicle/types/Vehicle';
-import { formatEngineVolume, formatPrice } from '@/utils/formatters';
+import { formatOptionalValue, formatPrice } from '@/utils/formatters';
 import { ActionIcon, Button, Group, Stack, Text } from '@mantine/core';
 import { IconBrandSpeedtest, IconCurrencyRubel, IconEngine, IconLink } from '@tabler/icons-react';
 import React, { FC } from 'react';
@@ -23,7 +23,7 @@ export const VehicleCard: FC<VehicleCardProps> = ({ vehicle }) => {
 
         <ActionIcon
           component="a"
-          href={vehicle.manufacturer.website}
+          href={vehicle.manufacturer?.website}
           target="_blank"
           variant="subtle"
         >
@@ -35,13 +35,15 @@ export const VehicleCard: FC<VehicleCardProps> = ({ vehicle }) => {
         <Group gap={10}>
           <IconEngine color="#2563EB" />
           <Text fz={14}>
-            {formatEngineVolume(vehicle.specification.engineVolume)}{' '}
-            {vehicle.specification.engineType.split('+')[0]}
+            {vehicle.specification?.engineVolume ? vehicle.specification?.engineVolume : '---'} л
           </Text>
+          <Text fz={14}>{vehicle.specification?.engineType.split('+')[0]}</Text>
         </Group>
         <Group gap={10}>
           <IconBrandSpeedtest color="#2563EB" />
-          <Text fz={14}>{vehicle.specification.horsepower} л.с.</Text>
+          <Text fz={14}>
+            {formatOptionalValue(vehicle.specification?.horsepower, value => value)} л.с.
+          </Text>
         </Group>
         <Group gap={10}>
           <IconCurrencyRubel color="#2563EB" />

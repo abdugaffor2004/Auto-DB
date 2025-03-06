@@ -3,6 +3,7 @@ export interface VehicleFilterOptions {
   models: string[];
   prices: string[];
   years: string[];
+  bodyTypes?: string[];
 }
 
 export interface VehiclesFetchFilterOptionsParams {
@@ -10,4 +11,5 @@ export interface VehiclesFetchFilterOptionsParams {
   model?: string | null;
   price?: string | null;
   year?: string | null;
+  bodyType?: string | null;
 }

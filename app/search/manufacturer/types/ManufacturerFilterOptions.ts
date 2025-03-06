@@ -1,5 +1,5 @@
 export interface ManufacturerFilterOptions {
-  names: string[];
+  names: NameType[];
   assembleCountries: string[];
   headquarters: string[];
   models: string[];
@@ -10,4 +10,9 @@ export interface ManufacturerFetchFilterOptionsParams {
   assembleCountries?: string[] | [];
   headquarters?: string | null;
   model?: string | null;
+}
+
+export interface NameType {
+  value: string;
+  label: string;
 }
