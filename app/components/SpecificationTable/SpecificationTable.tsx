@@ -21,13 +21,6 @@ export const SpecificationTable: FC<SpecificationTable> = ({
   const rows = currentItems?.map(item => {
     return (
       <Table.Tr key={item.id}>
-        {withDelete && (
-          <Table.Td>
-            <ActionIcon variant="subtle" onClick={() => deleteRows?.(item.id)}>
-              <IconTrash />
-            </ActionIcon>
-          </Table.Td>
-        )}
         <Table.Td>{`${item.engineVolume} л`}</Table.Td>
         <Table.Td>{`${item.horsepower} л.с`}</Table.Td>
         <Table.Td>{item.fuelType}</Table.Td>
@@ -35,7 +28,7 @@ export const SpecificationTable: FC<SpecificationTable> = ({
         <Table.Td>{item.driveType}</Table.Td>
         <Table.Td>{item.transmission}</Table.Td>
         <Table.Td>{item.weight}</Table.Td>
-        <Table.Td>
+        <Table.Td p={0}>
           {item.vehicles.map(vehicle => (
             <Link
               className="hover:text-[#228BE6]"
@@ -47,6 +40,13 @@ export const SpecificationTable: FC<SpecificationTable> = ({
             </Link>
           ))}
         </Table.Td>
+        {withDelete && (
+          <Table.Td>
+            <ActionIcon variant="subtle" onClick={() => deleteRows?.(item.id)}>
+              <IconTrash />
+            </ActionIcon>
+          </Table.Td>
+        )}
       </Table.Tr>
     );
   });
@@ -60,7 +60,6 @@ export const SpecificationTable: FC<SpecificationTable> = ({
       >
         <Table.Thead h="70px">
           <Table.Tr>
-            {withDelete && <Table.Th className="w-[10px]"></Table.Th>}
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Объем ДВС</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Мощность ДВС</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Тип топлива</Table.Th>
@@ -68,7 +67,8 @@ export const SpecificationTable: FC<SpecificationTable> = ({
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Тип привода</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Тип трансмисии</Table.Th>
             <Table.Th className="w-[100px] text-[18px] text-[#228BE6]">Вес</Table.Th>
-            <Table.Th className="w-[250px] text-[18px] text-[#228BE6]">Автомобили</Table.Th>
+            <Table.Th className="w-[300px] text-[18px] text-[#228BE6]">Автомобили</Table.Th>
+            {withDelete && <Table.Th p={0} className="w-[5px]"></Table.Th>}
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody mah="42vh" miw="100%">

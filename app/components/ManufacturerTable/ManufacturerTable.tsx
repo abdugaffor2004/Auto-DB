@@ -21,13 +21,6 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
   const rows = currentItems?.map(item => {
     return (
       <Table.Tr key={item.id}>
-        {withDelete && (
-          <Table.Td>
-            <ActionIcon variant="subtle" onClick={() => deleteRows?.(item.id)}>
-              <IconTrash />
-            </ActionIcon>
-          </Table.Td>
-        )}
         <Table.Td>{item.name}</Table.Td>
         <Table.Td>{item.assembleCountries.join(', ')}</Table.Td>
         <Table.Td>{item.headquarters}</Table.Td>
@@ -41,7 +34,7 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
             {item.website}
           </UnstyledButton>
         </Table.Td>
-        <Table.Td>
+        <Table.Td p={0}>
           {item.vehicles.map(vehicle => (
             <Link
               className="hover:text-[#228BE6]"
@@ -53,6 +46,13 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
             </Link>
           ))}
         </Table.Td>
+        {withDelete && (
+          <Table.Td>
+            <ActionIcon variant="subtle" onClick={() => deleteRows?.(item.id)}>
+              <IconTrash />
+            </ActionIcon>
+          </Table.Td>
+        )}
       </Table.Tr>
     );
   });
@@ -66,14 +66,12 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
       >
         <Table.Thead h="70px">
           <Table.Tr>
-            {withDelete && <Table.Th className="w-[10px]"></Table.Th>}
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Название компании</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Страна сборки</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Штаб-квартира</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Веб-сайт</Table.Th>
-            <Table.Th className="w-[300px] text-[18px] text-[#228BE6]">
-              Выпущенные автомобили
-            </Table.Th>
+            <Table.Th className="w-[300px] text-[18px] text-[#228BE6]">Автомобили</Table.Th>
+            {withDelete && <Table.Th p={0} className="w-[5px]"></Table.Th>}
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody mah="42vh" miw="100%">
