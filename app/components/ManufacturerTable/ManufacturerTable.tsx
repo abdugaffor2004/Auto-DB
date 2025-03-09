@@ -1,7 +1,8 @@
 import { usePagination } from '@/app/hooks/usePagination';
+import { Manufacturer } from '@/app/search/manufacturer/types/Manufacturer';
 import { ActionIcon, Pagination, Table, UnstyledButton } from '@mantine/core';
-import { Manufacturer } from '@prisma/client';
 import { IconTrash } from '@tabler/icons-react';
+import Link from 'next/link';
 import React, { FC } from 'react';
 
 interface CustomTableProps {
@@ -40,6 +41,18 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
             {item.website}
           </UnstyledButton>
         </Table.Td>
+        <Table.Td>
+          {item.vehicles.map(vehicle => (
+            <Link
+              className="hover:text-[#228BE6]"
+              key={vehicle.id}
+              href={`/search/vehicle/${vehicle.id}`}
+            >
+              {vehicle.brand} {vehicle.modelName}
+              {', '}
+            </Link>
+          ))}
+        </Table.Td>
       </Table.Tr>
     );
   });
@@ -47,7 +60,7 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
     <div className="mx-8">
       <Table
         horizontalSpacing="70px"
-        verticalSpacing="15px"
+        verticalSpacing="3px"
         highlightOnHover
         className="bg-white mt-8 rounded-md"
       >
@@ -58,6 +71,9 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Страна сборки</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Штаб-квартира</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Веб-сайт</Table.Th>
+            <Table.Th className="w-[300px] text-[18px] text-[#228BE6]">
+              Выпущенные автомобили
+            </Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody mah="42vh" miw="100%">
