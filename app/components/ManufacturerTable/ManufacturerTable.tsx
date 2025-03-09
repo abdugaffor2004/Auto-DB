@@ -22,7 +22,7 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
       <Table.Tr key={item.id}>
         {withDelete && (
           <Table.Td>
-            <ActionIcon onClick={() => deleteRows?.(item.id)}>
+            <ActionIcon variant="subtle" onClick={() => deleteRows?.(item.id)}>
               <IconTrash />
             </ActionIcon>
           </Table.Td>
