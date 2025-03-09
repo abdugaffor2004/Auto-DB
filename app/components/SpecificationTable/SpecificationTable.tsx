@@ -2,6 +2,7 @@ import { usePagination } from '@/app/hooks/usePagination';
 import { Specification } from '@/app/search/tech-specifications/types/Specification';
 import { ActionIcon, Pagination, Table } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
+import Link from 'next/link';
 
 import React, { FC } from 'react';
 
@@ -34,6 +35,18 @@ export const SpecificationTable: FC<SpecificationTable> = ({
         <Table.Td>{item.driveType}</Table.Td>
         <Table.Td>{item.transmission}</Table.Td>
         <Table.Td>{item.weight}</Table.Td>
+        <Table.Td>
+          {item.vehicles.map(vehicle => (
+            <Link
+              className="hover:text-[#228BE6]"
+              key={vehicle.id}
+              href={`/search/vehicle/${vehicle.id}`}
+            >
+              {vehicle.brand} {vehicle.modelName}
+              {', '}
+            </Link>
+          ))}
+        </Table.Td>
       </Table.Tr>
     );
   });
@@ -41,7 +54,7 @@ export const SpecificationTable: FC<SpecificationTable> = ({
     <div className="mx-8">
       <Table
         horizontalSpacing="25px"
-        verticalSpacing="15px"
+        verticalSpacing="8px"
         highlightOnHover
         className="bg-white mt-8 rounded-md"
       >
@@ -55,6 +68,7 @@ export const SpecificationTable: FC<SpecificationTable> = ({
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Тип привода</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Тип трансмисии</Table.Th>
             <Table.Th className="w-[100px] text-[18px] text-[#228BE6]">Вес</Table.Th>
+            <Table.Th className="w-[250px] text-[18px] text-[#228BE6]">Автомобили</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody mah="42vh" miw="100%">
