@@ -11,7 +11,7 @@ import { useManufacturerFilterQuery } from '@/app/search/manufacturer/hooks/useM
 import { NameType } from '@/app/search/manufacturer/types/ManufacturerFilterOptions';
 import { SelectAsyncWithId } from '@/app/components/SelectAsync/SelectAsyncWithId';
 import { useSpecificationFilterQuery } from '@/app/search/tech-specifications/hooks/useSpecificationFilterQuery';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
 
 const createVehicle = async (data: VehicleCreate) => {
@@ -22,8 +22,8 @@ const createVehicle = async (data: VehicleCreate) => {
       },
     });
     return { status: response.status, data: response.data };
-  } catch (error: any) {
-    if (error.response) {
+  } catch (error) {
+    if (error instanceof AxiosError && error.response) {
       return { status: error.response.status, data: error.response.data };
     }
 

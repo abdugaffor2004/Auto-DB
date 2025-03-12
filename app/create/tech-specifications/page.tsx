@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { CreateSpecification } from './types/CreateSpecification';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { isNotEmpty, useForm } from '@mantine/form';
 import { Autocomplete, Button, Flex, Grid, Group, Loader, NumberInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -17,8 +17,8 @@ const createSpecification = async (data: CreateSpecification) => {
       },
     });
     return { status: response.status, data: response.data };
-  } catch (error: any) {
-    if (error.response) {
+  } catch (error) {
+    if (error instanceof AxiosError && error.response) {
       return { status: error.response.status, data: error.response.data };
     }
 

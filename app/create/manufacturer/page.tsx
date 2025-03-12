@@ -2,7 +2,7 @@
 import { isNotEmpty, matches, useForm } from '@mantine/form';
 import React from 'react';
 import { CreateManufacturer } from './types/CreateManufaturer';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
 import { Button, Flex, Group, TagsInput, TextInput } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
@@ -15,8 +15,8 @@ const createManufacturer = async (data: CreateManufacturer) => {
       },
     });
     return { status: response.status, data: response.data };
-  } catch (error: any) {
-    if (error.response) {
+  } catch (error) {
+    if (error instanceof AxiosError && error.response) {
       return { status: error.response.status, data: error.response.data };
     }
 
