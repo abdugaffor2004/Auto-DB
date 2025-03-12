@@ -9,9 +9,9 @@ export const NavButtons: FC = () => {
 
   return (
     <div className="flex justify-center gap-4">
-      <Button variant={currentPathname === '/' ? 'light' : 'subtle'}>
+      {/* <Button variant={currentPathname === '/' ? 'light' : 'subtle'}>
         <Link href="/">Главная</Link>
-      </Button>
+      </Button> */}
 
       <Button variant={currentPathname === '/statistics' ? 'light' : 'subtle'}>
         <Link href="/statistics">Статистика</Link>
