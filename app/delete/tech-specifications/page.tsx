@@ -10,15 +10,15 @@ import { SpecificationSelectedFilters } from '@/app/search/tech-specifications/t
 import { useSpecificationFilterQuery } from '@/app/search/tech-specifications/hooks/useSpecificationFilterQuery';
 import { useSpecificationSearch } from '@/app/search/tech-specifications/hooks/useSpecificationSearch';
 import { SpecificationFetchFilterOptionsParams } from '@/app/search/tech-specifications/types/SpecificationFilterOptions';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
 
 const deleteSpecification = async (id: string) => {
   try {
     const response = await axios.delete(`/api/tech-specifications?id=${id}`);
     return { status: response.status, data: response.data };
-  } catch (error: any) {
-    if (error.response) {
+  } catch (error) {
+    if (error instanceof AxiosError && error.response) {
       return { status: error.response.status, data: error.response.data };
     }
 

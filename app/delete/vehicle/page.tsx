@@ -10,15 +10,15 @@ import { useVehicleSearch } from '@/app/search/vehicle/hooks/useVehicleSearch';
 import { VehicleSelectedFilters } from '@/app/search/vehicle/types/VehicleSelectedFilters';
 import { useVehicleFilterQuery } from '@/app/search/vehicle/hooks/useVehicleFilterQuery';
 import { IconTrash } from '@tabler/icons-react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
 
 const deleteVehicle = async (id: string) => {
   try {
     const response = await axios.delete(`/api/vehicles?id=${id}`);
     return { status: response.status, data: response.data };
-  } catch (error: any) {
-    if (error.response) {
+  } catch (error) {
+    if (error instanceof AxiosError && error.response) {
       return { status: error.response.status, data: error.response.data };
     }
 

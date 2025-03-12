@@ -9,15 +9,15 @@ import { ManufacturerTable } from '@/app/components/ManufacturerTable/Manufactur
 import { ManufacturerSelectedFilters } from '@/app/search/manufacturer/types/ManufacturerSelectedFilters';
 import { useManufacturerFilterQuery } from '@/app/search/manufacturer/hooks/useManufacturerFilterQuery';
 import { useManufacturerSearch } from '@/app/search/manufacturer/hooks/useManufacturerSearch';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
 
 const deleteManufaturer = async (id: string) => {
   try {
     const response = await axios.delete(`/api/manufacturer?id=${id}`);
     return { status: response.status, data: response.data };
-  } catch (error: any) {
-    if (error.response) {
+  } catch (error) {
+    if (error instanceof AxiosError && error.response) {
       return { status: error.response.status, data: error.response.data };
     }
 
