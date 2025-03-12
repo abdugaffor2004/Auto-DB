@@ -71,36 +71,6 @@ const Manufacturer = () => {
           label="Страны сборки автомобиля"
           placeholder="Введите страну..."
           {...form.getInputProps('assembleCountries')}
-          // data={options?.assembleCountries || []}
-          // value={manufacturerSelectedFilters.selectedAssembleCountries}
-          // onChange={value => {
-          //   setManufacturerSelectedFilters(prev => ({
-          //     ...prev,
-          //     selectedAssembleCountries: value,
-          //   }));
-          // }}
-          // onDropdownClose={() => setIsMultiSelectDropdownOpened(false)}
-          // onDropdownOpen={async () => {
-          //   setIsMultiSelectDropdownOpened(true);
-          //   try {
-          //     setisMultiSelectLoading(true);
-          //     await getManufacturerFilterOptions({
-          //       ...manufacturerFilterOptionsParams,
-          //       assembleCountries: [],
-          //     });
-          //   } finally {
-          //     setisMultiSelectLoading(false);
-          //   }
-          // }}
-          // rightSection={
-          //   isMultiSelectLoading ? (
-          //     <Loader size={18} />
-          //   ) : isMultiSelectDropdownOpened ? (
-          //     <IconChevronUp size={'18px'} />
-          //   ) : (
-          //     <IconChevronDown size={18} />
-          //   )
-          // }
         />
 
         <TextInput

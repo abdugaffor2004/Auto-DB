@@ -1,4 +1,3 @@
-
 import { NameType } from '@/app/search/manufacturer/types/ManufacturerFilterOptions';
 import { CheckIcon, Combobox, Loader, ScrollArea, TextInput, useCombobox } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
@@ -31,14 +30,13 @@ export const SelectAsyncWithId: FC<SelectAsyncWithIdProps> = ({
       setLoading(false);
     },
   });
-
   return (
     <Combobox
       store={combobox}
       withinPortal={false}
       onOptionSubmit={val => {
         const newValue = val === value?.label ? null : val;
-        const newId = options.filter(item => item.label !== newValue)[0].value;
+        const newId = options.find(item => item.label === newValue)?.value || '';
         onChange({ value: newId, label: newValue || '' });
         combobox.closeDropdown();
       }}
