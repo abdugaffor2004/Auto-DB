@@ -15,7 +15,6 @@ export const useVehicleFilterQuery = () => {
     [string, VehiclesFetchFilterOptionsParams]
   >({
     mutationKey: ['vehicle-options'],
-
     mutationFn: async (params): Promise<VehicleFilterOptions> => {
       const response = await axios.get<unknown, AxiosResponse<Vehicle[]>>('/api/vehicles', {
         params: {
