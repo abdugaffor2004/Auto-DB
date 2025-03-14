@@ -18,10 +18,10 @@ model Vehicle {
 
   // Relations
   manufacturer    Manufacturer?  @relation(fields: [manufacturerId], references: [id])
-  manufacturerId  String?        // Убрано @unique
+  manufacturerId  String?        
 
   specification   Specification? @relation(fields: [specificationId], references: [id])
-  specificationId String?        // Добавлено поле для связи с Specification
+  specificationId String?        
 
   safety  Safety?   @relation(fields: [safetyId], references: [id])
   safetyId String? 

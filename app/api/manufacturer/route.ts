@@ -58,6 +58,8 @@ export const GET = async (request: NextRequest) => {
           id: true,
           brand: true,
           modelName: true,
+          price: true,
+          year: true,
         },
       },
     },
