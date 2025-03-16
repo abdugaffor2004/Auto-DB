@@ -3,12 +3,16 @@ import { useMutation } from '@tanstack/react-query';
 import { VehicleSearchParams } from '../types/VehicleSearchParams';
 import { Vehicle } from '../types/Vehicle';
 import { unformatNumber } from '@/utils/formatters';
+import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
 export const useVehicleSearch = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
+
   return useMutation<Vehicle[], Error, VehicleSearchParams>({
     mutationKey: ['vehicle-search'],
     mutationFn: async params => {
       const searchParams = new URLSearchParams();
+      searchParams.append('schema', currentDbSchema);
 
       if (params.search) searchParams.append('s', params.search);
       if (params.brand) searchParams.append('b', params.brand);

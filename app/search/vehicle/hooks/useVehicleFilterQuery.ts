@@ -6,8 +6,11 @@ import {
 } from '../types/VehicleFilterOptions';
 import { Vehicle } from '../types/Vehicle';
 import { unformatNumber } from '@/utils/formatters';
+import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
 export const useVehicleFilterQuery = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
+
   return useMutation<
     VehicleFilterOptions,
     Error,
@@ -18,6 +21,7 @@ export const useVehicleFilterQuery = () => {
     mutationFn: async (params): Promise<VehicleFilterOptions> => {
       const response = await axios.get<unknown, AxiosResponse<Vehicle[]>>('/api/vehicles', {
         params: {
+          schema: currentDbSchema,
           b: params?.brand,
           md: params?.model,
           y: params?.year,

@@ -13,10 +13,11 @@ import { SelectAsyncWithId } from '@/app/components/SelectAsync/SelectAsyncWithI
 import { useSpecificationFilterQuery } from '@/app/search/tech-specifications/hooks/useSpecificationFilterQuery';
 import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
+import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
-const createVehicle = async (data: VehicleCreate) => {
+const createVehicle = async (data: VehicleCreate, currentDbSchema: CurrentDbSchema) => {
   try {
-    const response = await axios.post('/api/vehicles', data, {
+    const response = await axios.post(`/api/vehicles?schema=${currentDbSchema}`, data, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -32,6 +33,8 @@ const createVehicle = async (data: VehicleCreate) => {
 };
 
 const CreateVehicle: FC = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
+
   const form = useForm<VehicleCreate>({
     mode: 'controlled',
     initialValues: {
@@ -68,7 +71,7 @@ const CreateVehicle: FC = () => {
   const [selectedSpecification, setSelectedSpecification] = useState<NameType | null>();
 
   const handleSubmit = async (values: VehicleCreate) => {
-    const response = await createVehicle(values);
+    const response = await createVehicle(values, currentDbSchema);
 
     if (response.status === 400) {
       notifications.show({

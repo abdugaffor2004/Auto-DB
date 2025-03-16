@@ -12,10 +12,11 @@ import { useVehicleFilterQuery } from '@/app/search/vehicle/hooks/useVehicleFilt
 import { IconTrash } from '@tabler/icons-react';
 import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
+import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
-const deleteVehicle = async (id: string) => {
+const deleteVehicle = async (id: string, currentDbSchema: CurrentDbSchema) => {
   try {
-    const response = await axios.delete(`/api/vehicles?id=${id}`);
+    const response = await axios.delete(`/api/vehicles?id=${id}&schema=${currentDbSchema}`);
     return { status: response.status, data: response.data };
   } catch (error) {
     if (error instanceof AxiosError && error.response) {
@@ -27,6 +28,8 @@ const deleteVehicle = async (id: string) => {
 };
 
 const DeleteVehiclePage: FC = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
+
   const [searchValue, setSearchValue] = useState('');
   const [vehicleSelectedFilters, setVehicleSelectedFilters] = useState<VehicleSelectedFilters>({
     selectedBrandName: '',
@@ -67,7 +70,7 @@ const DeleteVehiclePage: FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    const { status } = await deleteVehicle(id);
+    const { status } = await deleteVehicle(id, currentDbSchema);
 
     if (status === 200) {
       notifications.show({

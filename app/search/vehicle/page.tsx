@@ -1,6 +1,6 @@
 'use client';
 import { ActionIcon, Group, Loader, SimpleGrid } from '@mantine/core';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { VehicleCard } from '@/app/components/VehicleCard/VehicleCard';
 import { SelectAsync } from '@/app/components/SelectAsync';
 import { useVehicleSearch } from './hooks/useVehicleSearch';
@@ -49,6 +49,10 @@ const VehcileSearchPage: FC = () => {
     model: vehicleSelectedFilters.selectedModelName,
     price: vehicleSelectedFilters.selectedPrice,
   };
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
 
   return (
     <div>

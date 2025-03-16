@@ -9,7 +9,7 @@ import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 export const Header: FC = () => {
   const { currentDbSchema, setCurrentDbSchema } = useCurrentDbSchema();
   return (
-    <header className="flex justify-between items-center pl-32 pr-10 py-4 bg-white">
+    <header className="flex justify-between items-center pl-32 pr-10 py-4 bg-white sticky top-0 z-10">
       <Group gap="10px" align="center">
         <IconCarFilled color="#2563EB" size="2.5rem" />
         <Text fw={700} fz="1.5rem">
