@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { TableRecord } from '../types/TableRecord';
+import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
 interface VehiclesByManufacturer {
   name: string;
@@ -8,9 +9,13 @@ interface VehiclesByManufacturer {
   };
 }
 export const useVehiclesByManufacturerQuery = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
   const { data: response, isLoading } = useQuery<VehiclesByManufacturer[]>({
-    queryKey: ['vehicles-by-manufacturer'],
-    queryFn: () => fetch('/api/statistics/vehicles-by-manufacturer').then(res => res.json()),
+    queryKey: ['vehicles-by-manufacturer', currentDbSchema],
+    queryFn: () =>
+      fetch(`/api/statistics/vehicles-by-manufacturer?schema=${currentDbSchema}`).then(res =>
+        res.json(),
+      ),
   });
 
   const data: TableRecord[] =

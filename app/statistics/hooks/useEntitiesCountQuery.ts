@@ -1,9 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { TableRecord } from '../types/TableRecord';
+import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
+
 export const useEntitiesCountQuery = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
+  console.log(currentDbSchema);
   const { data: response, isLoading } = useQuery({
-    queryKey: ['entities-count'],
-    queryFn: () => fetch('/api/statistics/entities-count').then(res => res.json()),
+    queryKey: ['entities-count', currentDbSchema],
+    queryFn: () =>
+      fetch(`/api/statistics/entities-count?schema=${currentDbSchema}`).then(res => res.json()),
   });
 
   const data: TableRecord[] = [
