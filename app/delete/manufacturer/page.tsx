@@ -11,10 +11,11 @@ import { useManufacturerFilterQuery } from '@/app/search/manufacturer/hooks/useM
 import { useManufacturerSearch } from '@/app/search/manufacturer/hooks/useManufacturerSearch';
 import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
+import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
-const deleteManufaturer = async (id: string) => {
+const deleteManufaturer = async (id: string, schema: CurrentDbSchema) => {
   try {
-    const response = await axios.delete(`/api/manufacturer?id=${id}`);
+    const response = await axios.delete(`/api/manufacturer?id=${id}&schema=${schema}`);
     return { status: response.status, data: response.data };
   } catch (error) {
     if (error instanceof AxiosError && error.response) {
@@ -26,6 +27,7 @@ const deleteManufaturer = async (id: string) => {
 };
 
 const ManufacturerDeletePage: FC = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
   const [isMultiSelectLoading, setisMultiSelectLoading] = useState(false);
   const [isMultiSelectDropdownOpened, setIsMultiSelectDropdownOpened] = useToggle();
   const [searchValue, setSearchValue] = useState('');
@@ -65,7 +67,7 @@ const ManufacturerDeletePage: FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    const { status } = await deleteManufaturer(id);
+    const { status } = await deleteManufaturer(id, currentDbSchema);
 
     if (status === 200) {
       notifications.show({

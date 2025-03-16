@@ -1,10 +1,12 @@
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["public", "mysql"]
 }
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 model Vehicle {
@@ -27,7 +29,9 @@ model Vehicle {
   safetyId String? 
   
   history   History?
- 
+
+ @@schema("public")
+
 }
 
 model Manufacturer {
@@ -39,6 +43,8 @@ model Manufacturer {
 
   // Relation
   vehicles         Vehicle[] 
+
+  @@schema("public")
 }
 
 model Specification {
@@ -53,6 +59,8 @@ model Specification {
 
   // Relation
   vehicles     Vehicle[]
+
+  @@schema("public")
 }
 
 model History {
@@ -65,6 +73,8 @@ model History {
 
   vehicle    Vehicle? @relation(fields: [vehicleId], references: [id])
   vehicleId  String? @unique
+
+  @@schema("public")
 }
 
 model Safety {
@@ -79,4 +89,94 @@ model Safety {
   // Relation
 
   vehicles     Vehicle[]
+
+  @@schema("public")
+}
+
+
+
+
+
+model VehicleP {
+  id              String         @id @default(cuid())
+  brand           String         @db.VarChar(30)
+  modelName       String         @db.VarChar(30)
+  year            Int
+  bodyType        String         @db.VarChar(20)
+  seatingCapacity Int
+  price           Decimal        @default(0) @db.Decimal(10, 2)
+
+  // Relations
+  manufacturer    ManufacturerP?  @relation(fields: [manufacturerId], references: [id])
+  manufacturerId  String?        
+
+  specification   SpecificationP? @relation(fields: [specificationId], references: [id])
+  specificationId String?        
+
+  safety  SafetyP?   @relation(fields: [safetyId], references: [id])
+  safetyId String? 
+  
+  history   HistoryP?
+
+ @@schema("mysql")
+
+}
+
+model ManufacturerP {
+  id                String       @id @default(cuid())
+  name              String       @db.VarChar(100)
+  assembleCountries String[]
+  headquarters      String       @db.VarChar(150)
+  website           String       @db.VarChar(100)
+
+  // Relation
+  vehicles         VehicleP[] 
+  
+  @@schema("mysql")
+}
+
+model SpecificationP {
+  id           String  @id @default(cuid())
+  engineVolume Float
+  horsepower   Int
+  fuelType     String  @db.VarChar(50)
+  engineType   String  @db.VarChar(50)
+  driveType    String  @db.VarChar(50)
+  transmission String  @db.VarChar(50)
+  weight       Int
+
+  // Relation
+  vehicles     VehicleP[]
+
+  @@schema("mysql")
+}
+
+model HistoryP {
+  id         String  @id @default(cuid())
+  generation Int
+  startYear  Int
+  endYear    Int?
+  unitsProduced Int?
+  keyChanges String[]
+
+  vehicle    VehicleP? @relation(fields: [vehicleId], references: [id])
+  vehicleId  String? @unique
+
+  @@schema("mysql")
+}
+
+model SafetyP {
+  id                    String  @id @default(cuid())
+  crashTestingRating    Int
+  airbagsCount          Int
+  abs                   Boolean
+  esp                   Boolean
+  emergencyBreaking     Boolean
+  adaptiveCruiseControl Boolean
+
+  // Relation
+
+  vehicles     VehicleP[]
+
+  @@schema("mysql")
 }

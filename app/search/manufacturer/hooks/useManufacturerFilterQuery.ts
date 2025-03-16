@@ -5,8 +5,10 @@ import {
   ManufacturerFilterOptions,
 } from '../types/ManufacturerFilterOptions';
 import { Manufacturer } from '../types/Manufacturer';
+import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
 export const useManufacturerFilterQuery = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
   return useMutation<
     ManufacturerFilterOptions,
     Error,
@@ -24,6 +26,7 @@ export const useManufacturerFilterQuery = () => {
             ac: params.assembleCountries?.join(',') || '',
             h: params.headquarters,
             md: params.model,
+            schema: currentDbSchema,
           },
         },
       );

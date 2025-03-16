@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
+import { getPostgresqlRouteOptions } from './config/get/postgresql-route-options';
+import { getMysqlRouteOptions } from './config/get/mysql-route-options';
+import { postPostgresqlRouteOptions } from './config/post/postgresql-route-options';
+import { postMysqlRouteOptions } from './config/post/mysql-route-options';
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
+  const schema = searchParams.get('schema') || 'postgresql';
 
   const search = searchParams.get('s');
   const name = searchParams.get('n');
@@ -11,95 +15,74 @@ export const GET = async (request: NextRequest) => {
   const headquarters = searchParams.get('h');
   const model = searchParams.get('md');
 
-  const where: Prisma.ManufacturerWhereInput = {};
+  if (schema === 'postgresql') {
+    const manufacturer = await getPostgresqlRouteOptions({
+      search: search || '',
+      name: name || '',
+      assembleCountries: assembleCountries || [],
+      headquarters: headquarters || '',
+      model: model || '',
+    });
 
-  if (search) {
-    where.OR = [
-      { name: { contains: search, mode: 'insensitive' } },
-      { headquarters: { contains: search, mode: 'insensitive' } },
-    ];
+    return NextResponse.json(manufacturer);
   }
 
-  if (name) {
-    where.name = name;
+  if (schema === 'mysql') {
+    const manufacturer = await getMysqlRouteOptions({
+      search: search || '',
+      name: name || '',
+      assembleCountries: assembleCountries || [],
+      headquarters: headquarters || '',
+      model: model || '',
+    });
+
+    return NextResponse.json(manufacturer);
   }
-
-  if (assembleCountries.length > 0) {
-    where.assembleCountries = {
-      hasSome: assembleCountries,
-    };
-  }
-
-  if (headquarters) {
-    where.headquarters = headquarters;
-  }
-
-  if (model) {
-    where.vehicles = {
-      some: {
-        modelName: {
-          contains: model,
-          mode: 'insensitive',
-        },
-      },
-    };
-  }
-
-  const manufacturer = await prisma.manufacturer.findMany({
-    where,
-    select: {
-      id: true,
-      name: true,
-      assembleCountries: true,
-      headquarters: true,
-      website: true,
-      vehicles: {
-        select: {
-          id: true,
-          brand: true,
-          modelName: true,
-          price: true,
-          year: true,
-        },
-      },
-    },
-  });
-
-  return NextResponse.json(manufacturer);
 };
 
 export const POST = async (request: NextRequest) => {
-  const { name, assembleCountries, headquarters, website } = await request.json();
+  const searchParams = request.nextUrl.searchParams;
+  const schema = searchParams.get('schema') || 'postgresql';
 
-  if (!name) {
-    return NextResponse.json(
-      { error: 'Missing required fields: name, vehicleId' },
-      { status: 400 },
-    );
+  if (schema === 'postgresql') {
+    const newManufacturer = await postPostgresqlRouteOptions(await request.json());
+
+    return NextResponse.json(newManufacturer, { status: 201 });
   }
 
-  const newManufacturer = await prisma.manufacturer.create({
-    data: {
-      name,
-      assembleCountries,
-      headquarters,
-      website,
-    },
-  });
-  return NextResponse.json(newManufacturer, { status: 201 });
+  if (schema === 'mysql') {
+    const newManufacturer = await postMysqlRouteOptions(await request.json());
+
+    return NextResponse.json(newManufacturer, { status: 201 });
+  }
 };
 
 export const DELETE = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
+  const schema = searchParams.get('schema') || 'postgresql';
   const id = searchParams.get('id');
 
-  try {
-    await prisma.manufacturer.delete({
-      where: {
-        id: id || '',
-      },
-    });
-    return NextResponse.json({ text: 'Успешно удаленно' });
-  } finally {
+  if (schema === 'postgresql') {
+    try {
+      await prisma.manufacturerP.delete({
+        where: {
+          id: id || '',
+        },
+      });
+      return NextResponse.json({ text: 'Успешно удаленно' });
+    } finally {
+    }
+  }
+
+  if (schema === 'mysql') {
+    try {
+      await prisma.manufacturer.delete({
+        where: {
+          id: id || '',
+        },
+      });
+      return NextResponse.json({ text: 'Успешно удаленно' });
+    } finally {
+    }
   }
 };

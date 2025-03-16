@@ -48,7 +48,6 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
         </Table.Td>
         <Table.Td>
           {item.vehicles.map(vehicle => {
-            console.log(vehicle.price);
             return <Text key={vehicle.id}>{vehicle.price}</Text>;
           })}
         </Table.Td>
