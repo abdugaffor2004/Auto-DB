@@ -8,10 +8,11 @@ import { Autocomplete, Button, Flex, Grid, Group, Loader, NumberInput } from '@m
 import { notifications } from '@mantine/notifications';
 import { IconChevronDown, IconChevronUp, IconPlus } from '@tabler/icons-react';
 import { useSpecificationFilterQuery } from '@/app/search/tech-specifications/hooks/useSpecificationFilterQuery';
+import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
-const createSpecification = async (data: CreateSpecification) => {
+const createSpecification = async (data: CreateSpecification, schema: CurrentDbSchema) => {
   try {
-    const response = await axios.post('/api/tech-specifications', data, {
+    const response = await axios.post(`/api/tech-specifications?schema=${schema}`, data, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -27,6 +28,8 @@ const createSpecification = async (data: CreateSpecification) => {
 };
 
 const Specification = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
+
   const form = useForm<CreateSpecification>({
     mode: 'controlled',
     initialValues: {
@@ -50,7 +53,7 @@ const Specification = () => {
   });
 
   const handleSubmit = async (vlaues: CreateSpecification) => {
-    const response = await createSpecification(vlaues);
+    const response = await createSpecification(vlaues, currentDbSchema);
 
     if (response.status === 201) {
       notifications.show({

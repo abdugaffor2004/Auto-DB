@@ -12,10 +12,13 @@ import { useSpecificationSearch } from '@/app/search/tech-specifications/hooks/u
 import { SpecificationFetchFilterOptionsParams } from '@/app/search/tech-specifications/types/SpecificationFilterOptions';
 import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
+import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
-const deleteSpecification = async (id: string) => {
+const deleteSpecification = async (id: string, currentDbSchema: CurrentDbSchema) => {
   try {
-    const response = await axios.delete(`/api/tech-specifications?id=${id}`);
+    const response = await axios.delete(
+      `/api/tech-specifications?id=${id}&schema=${currentDbSchema}`,
+    );
     return { status: response.status, data: response.data };
   } catch (error) {
     if (error instanceof AxiosError && error.response) {
@@ -28,6 +31,8 @@ const deleteSpecification = async (id: string) => {
 
 const TechSpecifications = () => {
   const [searchValue, setSearchValue] = useState('');
+  const { currentDbSchema } = useCurrentDbSchema();
+
   const [specificationSelectedFilters, setSpecificationSelectedFilters] =
     useState<SpecificationSelectedFilters>({
       selectedEngineType: '',
@@ -68,7 +73,7 @@ const TechSpecifications = () => {
   };
 
   const handleDelete = async (id: string) => {
-    const { status } = await deleteSpecification(id);
+    const { status } = await deleteSpecification(id, currentDbSchema);
 
     if (status === 200) {
       notifications.show({

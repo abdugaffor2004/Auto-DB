@@ -6,8 +6,11 @@ import {
 } from '../types/SpecificationFilterOptions';
 import { Specification } from '../types/Specification';
 import { unformatNumber } from '@/utils/formatters';
+import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
 export const useSpecificationFilterQuery = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
+
   return useMutation<
     SpecificationFilterOptions,
     Error,
@@ -18,7 +21,7 @@ export const useSpecificationFilterQuery = () => {
 
     mutationFn: async (params): Promise<SpecificationFilterOptions> => {
       const response = await axios.get<unknown, AxiosResponse<Specification[]>>(
-        '/api/tech-specifications',
+        `/api/tech-specifications?schema=${currentDbSchema}`,
         {
           params: {
             ev: params.engineVolume,
