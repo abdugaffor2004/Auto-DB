@@ -6,10 +6,11 @@ import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
 import { Button, Flex, Group, TagsInput, TextInput } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
+import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
-const createManufacturer = async (data: CreateManufacturer) => {
+const createManufacturer = async (data: CreateManufacturer, schema: CurrentDbSchema) => {
   try {
-    const response = await axios.post('/api/manufacturer', data, {
+    const response = await axios.post(`/api/manufacturer?schema=${schema}`, data, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -25,6 +26,7 @@ const createManufacturer = async (data: CreateManufacturer) => {
 };
 
 const Manufacturer = () => {
+  const { currentDbSchema } = useCurrentDbSchema();
   const form = useForm<CreateManufacturer>({
     mode: 'controlled',
     initialValues: {
@@ -44,7 +46,7 @@ const Manufacturer = () => {
   });
 
   const handleSubmit = async (formValues: CreateManufacturer) => {
-    const response = await createManufacturer(formValues);
+    const response = await createManufacturer(formValues, currentDbSchema);
 
     if (response.status === 201) {
       notifications.show({
