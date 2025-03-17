@@ -1,6 +1,6 @@
 import { usePagination } from '@/app/hooks/usePagination';
 import { Manufacturer } from '@/app/search/manufacturer/types/Manufacturer';
-import { ActionIcon, Pagination, Table, Text, UnstyledButton } from '@mantine/core';
+import { ActionIcon, Pagination, Table, UnstyledButton } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import Link from 'next/link';
 import React, { FC } from 'react';
@@ -39,17 +39,12 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
             <Link
               className="hover:text-[#228BE6]"
               key={vehicle.id}
-              href={`/search/vehicle/${vehicle.id}`}
+              href={`/search/vehicles/${vehicle.id}`}
             >
               {vehicle.brand} {vehicle.modelName}
               {', '}
             </Link>
           ))}
-        </Table.Td>
-        <Table.Td>
-          {item.vehicles.map(vehicle => {
-            return <Text key={vehicle.id}>{vehicle.price}</Text>;
-          })}
         </Table.Td>
         {withDelete && (
           <Table.Td>
@@ -76,7 +71,6 @@ export const ManufacturerTable: FC<CustomTableProps> = ({
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Штаб-квартира</Table.Th>
             <Table.Th className="w-[200px] text-[18px] text-[#228BE6]">Веб-сайт</Table.Th>
             <Table.Th className="w-[300px] text-[18px] text-[#228BE6]">Автомобили</Table.Th>
-            <Table.Th className="w-[300px] text-[18px] text-[#228BE6]">Цена</Table.Th>
             {withDelete && <Table.Th p={0} className="w-[5px]"></Table.Th>}
           </Table.Tr>
         </Table.Thead>

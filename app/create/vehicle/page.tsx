@@ -6,7 +6,6 @@ import { isNotEmpty, useForm } from '@mantine/form';
 import React, { FC, useState } from 'react';
 import { VehicleCreate } from './types/VehicleCreate';
 import { IconPlus } from '@tabler/icons-react';
-import { useVehicleFilterQuery } from '@/app/search/vehicle/hooks/useVehicleFilterQuery';
 import { useManufacturerFilterQuery } from '@/app/search/manufacturer/hooks/useManufacturerFilterQuery';
 import { NameType } from '@/app/search/manufacturer/types/ManufacturerFilterOptions';
 import { SelectAsyncWithId } from '@/app/components/SelectAsync/SelectAsyncWithId';
@@ -14,6 +13,7 @@ import { useSpecificationFilterQuery } from '@/app/search/tech-specifications/ho
 import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
 import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
+import { useVehicleFilterQuery } from '@/app/search/vehicles/hooks/useVehicleFilterQuery';
 
 const createVehicle = async (data: VehicleCreate, currentDbSchema: CurrentDbSchema) => {
   try {

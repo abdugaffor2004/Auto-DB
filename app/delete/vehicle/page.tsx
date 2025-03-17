@@ -6,13 +6,14 @@ import { SelectAsync } from '@/app/components/SelectAsync';
 
 import { SearchGroup } from '@/app/components/SearchGroup/SearchGroup';
 import { formatPrice } from '@/utils/formatters';
-import { useVehicleSearch } from '@/app/search/vehicle/hooks/useVehicleSearch';
-import { VehicleSelectedFilters } from '@/app/search/vehicle/types/VehicleSelectedFilters';
-import { useVehicleFilterQuery } from '@/app/search/vehicle/hooks/useVehicleFilterQuery';
+
 import { IconTrash } from '@tabler/icons-react';
 import axios, { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
 import { CurrentDbSchema, useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
+import { VehicleSelectedFilters } from '@/app/search/vehicles/types/VehicleSelectedFilters';
+import { useVehicleSearch } from '@/app/search/vehicles/hooks/useVehicleSearch';
+import { useVehicleFilterQuery } from '@/app/search/vehicles/hooks/useVehicleFilterQuery';
 
 const deleteVehicle = async (id: string, currentDbSchema: CurrentDbSchema) => {
   try {

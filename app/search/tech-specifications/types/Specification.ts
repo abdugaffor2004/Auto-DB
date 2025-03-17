@@ -1,4 +1,4 @@
-import { ReducedVehicle } from '../../vehicle/types/ReducedVehicle';
+import { ReducedVehicle } from '../../vehicles/types/ReducedVehicle';
 
 export interface Specification {
   id: string;

@@ -33,7 +33,7 @@ export const SpecificationTable: FC<SpecificationTable> = ({
             <Link
               className="hover:text-[#228BE6]"
               key={vehicle.id}
-              href={`/search/vehicle/${vehicle.id}`}
+              href={`/search/vehicles/${vehicle.id}`}
             >
               {vehicle.brand} {vehicle.modelName}
               {', '}

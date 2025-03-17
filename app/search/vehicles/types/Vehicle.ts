@@ -1,4 +1,4 @@
-import { History, Manufacturer, Specification } from '@prisma/client';
+import { History, Manufacturer, Safety, Specification } from '@prisma/client';
 
 export interface Vehicle {
   id: string;
@@ -11,4 +11,5 @@ export interface Vehicle {
   history: History | null;
   manufacturer: Manufacturer | null;
   specification: Specification | null;
+  safety: Safety | null;
 }

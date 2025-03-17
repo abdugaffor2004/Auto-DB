@@ -9,10 +9,6 @@ export const NavButtons: FC = () => {
 
   return (
     <div className="flex justify-center gap-4">
-      {/* <Button variant={currentPathname === '/' ? 'light' : 'subtle'}>
-        <Link href="/">Главная</Link>
-      </Button> */}
-
       <Button variant={currentPathname === '/statistics' ? 'light' : 'subtle'}>
         <Link href="/statistics">Статистика</Link>
       </Button>
@@ -24,7 +20,7 @@ export const NavButtons: FC = () => {
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item component={Link} href="/search/vehicle">
+          <Menu.Item component={Link} href="/search/vehicles">
             Автомобиль
           </Menu.Item>
           <Menu.Item component={Link} href="/search/manufacturer">
