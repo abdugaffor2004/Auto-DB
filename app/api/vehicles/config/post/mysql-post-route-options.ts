@@ -1,18 +1,8 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { PostRouteOptionsParams } from './post-route-options';
 
-interface MysqlPostRouteOptionsParams {
-  brand: string;
-  modelName: string;
-  year: string;
-  price: string;
-  seatingCapacity: string;
-  bodyType: string;
-  manufacturerId: string;
-  specificationId: string;
-}
-
-export const mysqlPostRouteOptions = async (params: MysqlPostRouteOptionsParams) => {
+export const mysqlPostRouteOptions = async (params: PostRouteOptionsParams) => {
   const {
     brand,
     modelName,
@@ -22,6 +12,7 @@ export const mysqlPostRouteOptions = async (params: MysqlPostRouteOptionsParams)
     bodyType,
     manufacturerId,
     specificationId,
+    history,
   } = params;
 
   if (!manufacturerId || !specificationId || !year) {
@@ -48,5 +39,9 @@ export const mysqlPostRouteOptions = async (params: MysqlPostRouteOptionsParams)
     },
   });
 
-  return newVehicle;
+  const newHistory = await prisma.history.create({
+    data: { ...history, vehicleId: newVehicle.id },
+  });
+
+  return { ...newVehicle, ...newHistory };
 };

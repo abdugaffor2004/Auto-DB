@@ -1,18 +1,8 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { PostRouteOptionsParams } from './post-route-options';
 
-interface PostgresqlPostRouteOptionsParams {
-  brand: string;
-  modelName: string;
-  year: string;
-  price: string;
-  seatingCapacity: string;
-  bodyType: string;
-  manufacturerId: string;
-  specificationId: string;
-}
-
-export const postgresqlPostRouteOptions = async (params: PostgresqlPostRouteOptionsParams) => {
+export const postgresqlPostRouteOptions = async (params: PostRouteOptionsParams) => {
   const {
     brand,
     modelName,
@@ -22,6 +12,7 @@ export const postgresqlPostRouteOptions = async (params: PostgresqlPostRouteOpti
     bodyType,
     manufacturerId,
     specificationId,
+    history,
   } = params;
 
   if (!manufacturerId || !specificationId || !year) {
@@ -48,5 +39,9 @@ export const postgresqlPostRouteOptions = async (params: PostgresqlPostRouteOpti
     },
   });
 
-  return newVehicle;
+  const newHistory = await prisma.historyP.create({
+    data: { ...history, vehicleId: newVehicle.id },
+  });
+
+  return { ...newVehicle, ...newHistory };
 };
