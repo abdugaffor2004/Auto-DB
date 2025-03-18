@@ -10,7 +10,7 @@ interface VehiclesByManufacturer {
 }
 export const useVehiclesByManufacturerQuery = () => {
   const { currentDbSchema } = useCurrentDbSchema();
-  const { data: response, isLoading } = useQuery<VehiclesByManufacturer[]>({
+  const { data: response, ...rest } = useQuery<VehiclesByManufacturer[]>({
     queryKey: ['vehicles-by-manufacturer', currentDbSchema],
     queryFn: () =>
       fetch(`/api/statistics/vehicles-by-manufacturer?schema=${currentDbSchema}`).then(res =>
@@ -24,5 +24,5 @@ export const useVehiclesByManufacturerQuery = () => {
       value: item._count.vehicles,
     })) ?? [];
 
-  return { data, isLoading };
+  return { data, ...rest };
 };

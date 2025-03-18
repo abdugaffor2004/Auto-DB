@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosResponse } from 'axios';
 import {
   ManufacturerFetchFilterOptionsParams,
@@ -7,17 +7,11 @@ import {
 import { Manufacturer } from '../types/Manufacturer';
 import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
-export const useManufacturerFilterQuery = () => {
+export const useManufacturerFilterQuery = (params: ManufacturerFetchFilterOptionsParams) => {
   const { currentDbSchema } = useCurrentDbSchema();
-  return useMutation<
-    ManufacturerFilterOptions,
-    Error,
-    ManufacturerFetchFilterOptionsParams,
-    [string, ManufacturerFetchFilterOptionsParams]
-  >({
-    mutationKey: ['manufacturer-options'],
-
-    mutationFn: async (params): Promise<ManufacturerFilterOptions> => {
+  return useQuery<ManufacturerFilterOptions>({
+    queryKey: ['manufacturer-options', params],
+    queryFn: async (): Promise<ManufacturerFilterOptions> => {
       const response = await axios.get<unknown, AxiosResponse<Manufacturer[]>>(
         '/api/manufacturer',
         {

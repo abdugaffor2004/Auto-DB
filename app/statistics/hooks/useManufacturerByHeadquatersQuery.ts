@@ -11,7 +11,7 @@ interface ManufacturerByHeadquaters {
 
 export const useManufacturerByHeadquatersQuery = () => {
   const { currentDbSchema } = useCurrentDbSchema();
-  const { data: response, isLoading } = useQuery<ManufacturerByHeadquaters[]>({
+  const { data: response, ...rest } = useQuery<ManufacturerByHeadquaters[]>({
     queryKey: ['manufacturer-by-headquaters', currentDbSchema],
     queryFn: () =>
       fetch(`/api/statistics/manufacturer-by-headquarters?schema=${currentDbSchema}`).then(res =>
@@ -25,5 +25,5 @@ export const useManufacturerByHeadquatersQuery = () => {
       value: item._count._all,
     })) ?? [];
 
-  return { data, isLoading };
+  return { data, ...rest };
 };

@@ -9,6 +9,7 @@ import { useToggle } from '@mantine/hooks';
 import { useManufacturerSearch } from './hooks/useManufacturerSearch';
 import { SearchGroup } from '@/app/components/SearchGroup/SearchGroup';
 import { ManufacturerTable } from '@/app/components/ManufacturerTable/ManufacturerTable';
+import { ManufacturerFetchFilterOptionsParams } from './types/ManufacturerFilterOptions';
 
 const ManufacturerSearchPage: FC = () => {
   const [isMultiSelectLoading, setisMultiSelectLoading] = useState(false);
@@ -22,19 +23,22 @@ const ManufacturerSearchPage: FC = () => {
       selectedModel: '',
     });
 
-  const { data: options, mutateAsync: getManufacturerFilterOptions } = useManufacturerFilterQuery();
-  const {
-    data: searchedManufacturers,
-    mutateAsync: searchManufacturer,
-    isPending: isSearching,
-  } = useManufacturerSearch();
-
-  const manufacturerFilterOptionsParams = {
+  const manufacturerFilterOptionsParams: ManufacturerFetchFilterOptionsParams = {
     name: manufacturerSelectedFilters.selectedName,
     assembleCountries: manufacturerSelectedFilters.selectedAssembleCountries,
     headquarters: manufacturerSelectedFilters.selectedHeadquarters,
     model: manufacturerSelectedFilters.selectedModel,
   };
+
+  const { data: options, refetch: getOptions } = useManufacturerFilterQuery(
+    manufacturerFilterOptionsParams,
+  );
+
+  const {
+    data: searchedManufacturers,
+    mutateAsync: searchManufacturer,
+    isPending: isSearching,
+  } = useManufacturerSearch();
 
   const handleSearch = async () => {
     searchManufacturer({
@@ -47,6 +51,11 @@ const ManufacturerSearchPage: FC = () => {
       selectedModel: '',
       selectedName: '',
     });
+  };
+
+  const getManufacturerFilterOptions = (targetParam: Record<string, [] | string>) => {
+    Object.assign(manufacturerFilterOptionsParams, targetParam);
+    getOptions();
   };
 
   return (
@@ -71,8 +80,7 @@ const ManufacturerSearchPage: FC = () => {
               setIsMultiSelectDropdownOpened(true);
               try {
                 setisMultiSelectLoading(true);
-                await getManufacturerFilterOptions({
-                  ...manufacturerFilterOptionsParams,
+                getManufacturerFilterOptions({
                   assembleCountries: [],
                 });
               } finally {
@@ -94,12 +102,9 @@ const ManufacturerSearchPage: FC = () => {
             className="min-w-[180px]"
             placeholder="Название компании"
             options={options?.names.map(item => item.label) || []}
-            fetchData={() =>
-              getManufacturerFilterOptions({
-                ...manufacturerFilterOptionsParams,
-                name: '',
-              })
-            }
+            fetchData={() => {
+              getManufacturerFilterOptions({ name: '' });
+            }}
             value={manufacturerSelectedFilters.selectedName}
             onChange={value =>
               setManufacturerSelectedFilters(prev => ({ ...prev, selectedName: value }))
@@ -110,12 +115,9 @@ const ManufacturerSearchPage: FC = () => {
             className="min-w-[260px]"
             placeholder="Штаб-квартира"
             options={options?.headquarters || []}
-            fetchData={async () =>
-              getManufacturerFilterOptions({
-                ...manufacturerFilterOptionsParams,
-                headquarters: '',
-              })
-            }
+            fetchData={async () => {
+              getManufacturerFilterOptions({ headquarters: '' });
+            }}
             value={manufacturerSelectedFilters.selectedHeadquarters}
             onChange={value =>
               setManufacturerSelectedFilters(prev => ({ ...prev, selectedHeadquarters: value }))
@@ -126,12 +128,9 @@ const ManufacturerSearchPage: FC = () => {
             className="min-w-[130px]"
             placeholder="Модель автомобиля"
             options={options?.models || []}
-            fetchData={async () =>
-              getManufacturerFilterOptions({
-                ...manufacturerFilterOptionsParams,
-                model: '',
-              })
-            }
+            fetchData={async () => {
+              getManufacturerFilterOptions({ model: '' });
+            }}
             value={manufacturerSelectedFilters.selectedModel}
             onChange={value =>
               setManufacturerSelectedFilters(prev => ({ ...prev, selectedModel: value }))

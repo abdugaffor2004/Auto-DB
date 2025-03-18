@@ -4,8 +4,7 @@ import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 
 export const useEntitiesCountQuery = () => {
   const { currentDbSchema } = useCurrentDbSchema();
-  console.log(currentDbSchema);
-  const { data: response, isLoading } = useQuery({
+  const { data: response, ...rest } = useQuery({
     queryKey: ['entities-count', currentDbSchema],
     queryFn: () =>
       fetch(`/api/statistics/entities-count?schema=${currentDbSchema}`).then(res => res.json()),
@@ -17,5 +16,5 @@ export const useEntitiesCountQuery = () => {
     { label: 'Технических спецификаций', value: response?.specificationsCount },
   ];
 
-  return { data, isLoading };
+  return { data, ...rest };
 };
