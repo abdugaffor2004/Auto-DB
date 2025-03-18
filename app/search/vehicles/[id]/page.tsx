@@ -1,5 +1,4 @@
 'use client';
-
 import { useCurrentDbSchema } from '@/app/hooks/useCurrentDbSchema';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -50,6 +49,7 @@ const VehiclePage: FC = () => {
       return response.data;
     },
     placeholderData: keepPreviousData,
+    staleTime: 3500,
   });
 
   if (isFetching) {
