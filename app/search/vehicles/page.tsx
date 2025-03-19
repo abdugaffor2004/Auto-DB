@@ -56,7 +56,10 @@ const VehcileSearchPage: FC = () => {
 
   return (
     <div>
-      <Group justify="space-between" className="bg-white mt-10 py-10 pl-8 pr-8">
+      <Group
+        justify="space-between"
+        className="sticky top-[60px] z-10 bg-white mt-10 py-10 pl-8 pr-8"
+      >
         <SearchGroup value={searchValue} onChange={setSearchValue} onSubmit={handleSearch} />
 
         <div className="flex gap-3">
